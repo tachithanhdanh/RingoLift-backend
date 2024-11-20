@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: ringolift
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      enabled: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/ringolift?useSSL=false
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true # show SQL queries in the console
+    hibernate:
+      ddl-auto: none # prevent Hibernate from creating or updating the database schema
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect # MySQL 8
+        format_sql: true
+server:
+  port: 8088
+api:
+  prefix: /api/v1
+jwt:
+  expiration: 86400000 # 1 day = 1 * 24 * 60 * 60 * 1000
+  secret: c084c6c02018c2ffde56d05a2cf9d35c641d21714972711d459d6bff4988ee62c8364f4ca8c2e93ba74a5663fbc85b5a3ea4bf97d539809dfc40af1a07438e9ab26dbefa4604c5a9b39aacce31292397d50146752939025665383dedab51fb6da6dcf86dc94a5e03f39daefbde6d06fb3f326797a5f67f48c6af00958fa4a970
