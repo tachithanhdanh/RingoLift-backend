@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS ringolift;
+
 -- Tạo cơ sở dữ liệu mới
 CREATE DATABASE ringolift;
 USE ringolift;
@@ -86,8 +88,8 @@ CREATE TABLE users (
                        is_public BOOLEAN,
                        google_id INT,
                        access_token VARCHAR(255),
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       created_at DATETIME,
+                       updated_at DATETIME,
                        FOREIGN KEY (gender) REFERENCES user_gender(gender)
 );
 
@@ -97,8 +99,8 @@ CREATE TABLE goals (
                        time_spent INT,
                        lesson_count INT,
                        word_count INT,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                       created_at DATETIME,
+                       updated_at DATETIME
 );
 
 -- Cập nhật khóa ngoại cho 'users.goal_id' sau khi tạo bảng 'goals'
@@ -142,8 +144,8 @@ CREATE TABLE books (
                        description TEXT,
                        cover_image VARCHAR(255),
                        content_url VARCHAR(255),
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       created_at DATETIME,
+                       updated_at DATETIME,
                        FOREIGN KEY (genre) REFERENCES book_genre(genre)
 );
 
@@ -153,8 +155,8 @@ CREATE TABLE friends (
                          sender_id INT,
                          receiver_id INT,
                          status ENUM('PENDING', 'ACCEPTED'),
-                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         created_at DATETIME,
+                         updated_at DATETIME,
                          FOREIGN KEY (sender_id) REFERENCES users(id),
                          FOREIGN KEY (receiver_id) REFERENCES users(id),
                          FOREIGN KEY (status) REFERENCES friend_status(status)
@@ -167,8 +169,8 @@ CREATE TABLE questions (
                            audio_url VARCHAR(255),
                            hint TEXT,
                            type ENUM('MULTIPLE_CHOICE', 'FILL_IN_THE_BLANK'),
-                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                           created_at DATETIME,
+                           updated_at DATETIME,
                            FOREIGN KEY (type) REFERENCES question_type(type)
 );
 
@@ -178,8 +180,8 @@ CREATE TABLE answers (
                          content VARCHAR(255) NOT NULL,
                          question_id INT,
                          is_correct BOOLEAN,
-                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         created_at DATETIME,
+                         updated_at DATETIME,
                          FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
@@ -204,8 +206,8 @@ CREATE TABLE words (
                        pronunciation VARCHAR(255),
                        audio_url VARCHAR(255),
                        example_sentence TEXT,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                       created_at DATETIME,
+                       updated_at DATETIME,
                        FOREIGN KEY (part_of_speech) REFERENCES part_of_speech(pos)
 );
 
@@ -216,8 +218,8 @@ CREATE TABLE word_progress (
                                word_id INT,
                                status ENUM('FORGOT', 'LEARNED'),
                                note TEXT,
-                               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                               created_at DATETIME,
+                               updated_at DATETIME,
                                FOREIGN KEY (user_id) REFERENCES users(id),
                                FOREIGN KEY (word_id) REFERENCES words(id),
                                FOREIGN KEY (status) REFERENCES word_status(status)
@@ -229,8 +231,8 @@ CREATE TABLE chapters (
                           name VARCHAR(255) NOT NULL,
                           cover_image VARCHAR(255),
                           description TEXT,
-                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                          created_at DATETIME,
+                          updated_at DATETIME
 );
 
 -- 17. Tạo bảng 'chapter_progress'
@@ -239,8 +241,8 @@ CREATE TABLE chapter_progress (
                                   user_id INT,
                                   chapter_id INT,
                                   unlocked BOOLEAN,
-                                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                  created_at DATETIME,
+                                  updated_at DATETIME,
                                   FOREIGN KEY (user_id) REFERENCES users(id),
                                   FOREIGN KEY (chapter_id) REFERENCES chapters(id)
 );
@@ -251,8 +253,8 @@ CREATE TABLE lessons (
                          title VARCHAR(255) NOT NULL,
                          chapter_id INT,
                          description TEXT,
-                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         created_at DATETIME,
+                         updated_at DATETIME,
                          FOREIGN KEY (chapter_id) REFERENCES chapters(id)
 );
 
@@ -264,8 +266,8 @@ CREATE TABLE lesson_progress (
                                  correct_count INT,
                                  incorrect_count INT,
                                  time_spent INT,
-                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                 created_at DATETIME,
+                                 updated_at DATETIME,
                                  FOREIGN KEY (user_id) REFERENCES users(id),
                                  FOREIGN KEY (lesson_id) REFERENCES lessons(id)
 );
@@ -275,8 +277,8 @@ CREATE TABLE lesson_questions (
                                   id INT AUTO_INCREMENT PRIMARY KEY,
                                   lesson_id INT,
                                   question_id INT,
-                                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                  created_at DATETIME,
+                                  updated_at DATETIME,
                                   FOREIGN KEY (lesson_id) REFERENCES lessons(id),
                                   FOREIGN KEY (question_id) REFERENCES questions(id)
 );
@@ -288,8 +290,8 @@ CREATE TABLE mistakes (
                           lesson_id INT,
                           question_id INT,
                           active BOOLEAN,
-                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          created_at DATETIME,
+                          updated_at DATETIME,
                           FOREIGN KEY (user_id) REFERENCES users(id),
                           FOREIGN KEY (lesson_id) REFERENCES lessons(id),
                           FOREIGN KEY (question_id) REFERENCES questions(id)
@@ -302,8 +304,8 @@ CREATE TABLE daily_progress (
                                 time_spent INT,
                                 lesson_count INT,
                                 word_count INT,
-                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                created_at DATETIME,
+                                updated_at DATETIME,
                                 FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
@@ -314,8 +316,8 @@ CREATE TABLE feedback (
                           lesson_id INT,
                           stars INT,
                           comment TEXT,
-                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          created_at DATETIME,
+                          updated_at DATETIME,
                           FOREIGN KEY (user_id) REFERENCES users(id),
                           FOREIGN KEY (lesson_id) REFERENCES lessons(id)
 );
@@ -327,8 +329,8 @@ CREATE TABLE messages (
                           receiver_id INT,
                           message_text TEXT,
                           is_read BOOLEAN,
-                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          created_at DATETIME,
+                          updated_at DATETIME,
                           FOREIGN KEY (sender_id) REFERENCES users(id),
                           FOREIGN KEY (receiver_id) REFERENCES users(id)
 );
@@ -341,8 +343,8 @@ CREATE TABLE notifications (
                                content TEXT,
                                is_read BOOLEAN,
                                is_deleted BOOLEAN,
-                               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                               created_at DATETIME,
+                               updated_at DATETIME,
                                FOREIGN KEY (user_id) REFERENCES users(id),
                                FOREIGN KEY (type) REFERENCES notification_type(type)
 );
@@ -352,6 +354,6 @@ CREATE TABLE admins (
                         id INT AUTO_INCREMENT PRIMARY KEY,
                         username VARCHAR(255) NOT NULL UNIQUE,
                         password VARCHAR(255),
-                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                        created_at DATETIME,
+                        updated_at DATETIME
 );
