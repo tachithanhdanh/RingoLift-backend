@@ -1,8 +1,12 @@
 package com.gorgeous.ringolift.exceptions;
 
 import com.gorgeous.ringolift.responses.ResponseObject;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,6 +37,33 @@ public class GlobalExceptionHandler {
                         .message(exception.getMessage())
                         .status(HttpStatus.NOT_FOUND)
                         .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException exception) {
+        BindingResult result = exception.getBindingResult();
+        // Get all field error messages
+        Map<String, String> errors = new HashMap<>();
+        String message = "Data validation error";
+
+        // Regular Expression
+        String regex = "([a-z])([A-Z]+)";
+
+        // Replacement string
+        String replacement = "$1_$2";
+
+        result.getFieldErrors()
+                .forEach(fieldError -> errors.put(
+                        fieldError.getField().replaceAll(regex, replacement).toLowerCase(),
+                        fieldError.getDefaultMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message(message)
+                        .status(HttpStatus.BAD_REQUEST)
+                        .data(errors)
                         .build());
     }
 }

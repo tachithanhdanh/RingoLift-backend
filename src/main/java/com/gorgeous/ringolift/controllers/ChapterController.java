@@ -32,26 +32,12 @@ public class ChapterController {
     // POST http://localhost:8088/api/v1/chapters
     @PostMapping("")
     public ResponseEntity<ResponseObject> createChapter(
-            @Valid @RequestBody ChapterRequest chapterRequest,
-            BindingResult result
+            @Valid @RequestBody ChapterRequest chapterRequest
     ) {
-        if (result.hasErrors()) {
-            // Get all field error messages
-            List<String> errorMessages = result.getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
-            return ResponseEntity.badRequest().body(
-                    ResponseObject.builder()
-                            .message(String.join(";", errorMessages))
-                            .status(HttpStatus.BAD_REQUEST)
-                            .data(errorMessages)
-                            .build());
-        }
         ChapterResponse chapterResponse = chapterService.createChapter(chapterRequest);
         return ResponseEntity.ok(
                 ResponseObject.builder()
-                        .message("Chapter created successfully")
+                        .message("Create chapter successfully")
                         .status(HttpStatus.CREATED)
                         .data(chapterResponse)
                         .build());
@@ -64,7 +50,7 @@ public class ChapterController {
         List<ChapterResponse> chapterResponses = chapterService.getAllChapters();
         return ResponseEntity.ok(
                 ResponseObject.builder()
-                        .message("Chapters retrieved successfully")
+                        .message("Get list of chapters successfully")
                         .status(HttpStatus.OK)
                         .data(chapterResponses)
                         .build());
@@ -77,7 +63,7 @@ public class ChapterController {
         ChapterResponse chapterResponse = chapterService.getChapterById(id);
         return ResponseEntity.ok(
                 ResponseObject.builder()
-                        .message("Chapter retrieved successfully")
+                        .message("Get chapter by id successfully")
                         .status(HttpStatus.OK)
                         .data(chapterResponse)
                         .build());
@@ -89,26 +75,12 @@ public class ChapterController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateChapter(
             @Valid @PathVariable Long id,
-            @Valid @RequestBody ChapterRequest chapterRequest,
-            BindingResult result
+            @Valid @RequestBody ChapterRequest chapterRequest
     ) throws DataNotFoundException {
-        if (result.hasErrors()) {
-            // Get all field error messages
-            List<String> errorMessages = result.getFieldErrors()
-                    .stream()
-                    .map(FieldError::getDefaultMessage)
-                    .toList();
-            return ResponseEntity.badRequest().body(
-                    ResponseObject.builder()
-                            .message(String.join(";", errorMessages))
-                            .status(HttpStatus.BAD_REQUEST)
-                            .data(errorMessages)
-                            .build());
-        }
         ChapterResponse chapterResponse = chapterService.updateChapter(id, chapterRequest);
         return ResponseEntity.ok(
                 ResponseObject.builder()
-                        .message("Chapter updated successfully")
+                        .message("Update chapter successfully")
                         .status(HttpStatus.OK)
                         .data(chapterResponse)
                         .build());
@@ -122,7 +94,7 @@ public class ChapterController {
         chapterService.deleteChapter(id);
         return ResponseEntity.ok(
                 ResponseObject.builder()
-                        .message("Chapter deleted successfully")
+                        .message("Delete chapter successfully")
                         .status(HttpStatus.OK)
                         .data(null)
                         .build());
