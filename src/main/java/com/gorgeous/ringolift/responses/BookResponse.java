@@ -30,7 +30,7 @@ public class BookResponse extends BaseResponse {
     private String isbn;
 
     @JsonProperty("num_of_pages")
-    private Long numOfPages;
+    private Integer numOfPages;
 
     @JsonProperty("publisher")
     private String publisher;

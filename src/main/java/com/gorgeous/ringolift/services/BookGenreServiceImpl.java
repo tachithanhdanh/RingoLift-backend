@@ -40,7 +40,8 @@ public class BookGenreServiceImpl implements BookGenreService {
 
     @Override
     public BookGenreResponse updateBookGenre(Long bookGenreId, BookGenreRequest bookGenreRequest) throws DataNotFoundException {
-        BookGenre bookGenre = bookGenreRepository.findById(bookGenreId).orElseThrow(() -> new DataNotFoundException("BookGenre not found"));
+        BookGenre bookGenre = bookGenreRepository.findById(bookGenreId)
+                .orElseThrow(() -> new DataNotFoundException("BookGenre not found"));
         bookGenre.setGenreType(bookGenreRequest.getGenreType());
         return BookGenreResponse.fromBookGenre(bookGenreRepository.save(bookGenre));
     }

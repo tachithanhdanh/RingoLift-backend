@@ -33,7 +33,7 @@ public class BookRequest {
     private String isbn;
 
     @JsonProperty("num_of_pages")
-    private Long numOfPages;
+    private Integer numOfPages;
 
     @JsonProperty("publisher")
     @Size(min = 1, max = 255, message = "Publisher's name is too long")

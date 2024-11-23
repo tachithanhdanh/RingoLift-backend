@@ -32,7 +32,7 @@ public class Book extends BaseEntity {
     private String isbn;
 
     @Column(name = "num_of_pages")
-    private Long numOfPages;
+    private Integer numOfPages;
 
     @Column(name = "publisher")
     private String publisher;
