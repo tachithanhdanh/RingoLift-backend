@@ -1,7 +1,6 @@
 package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
-import com.gorgeous.ringolift.models.Goal;
 import com.gorgeous.ringolift.requests.GoalRequest;
 import com.gorgeous.ringolift.responses.GoalResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
@@ -26,7 +25,7 @@ public class GoalController {
     @PostMapping("")
     public ResponseEntity<ResponseObject> createGoal(
             @Valid @RequestBody GoalRequest goalRequest
-    ) throws DataNotFoundException {
+    ) {
         GoalResponse goalResponse = goalService.createGoal(goalRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ResponseObject.builder()
@@ -85,7 +84,7 @@ public class GoalController {
     }
 
     // Delete a goal by id
-    // DELETE httpL//localhost:8088/api/v1/goals/1
+    // DELETE http://localhost:8088/api/v1/goals/1
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseObject> deleteGoal(
             @Valid @PathVariable Long id
