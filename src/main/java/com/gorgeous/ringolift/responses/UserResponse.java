@@ -50,7 +50,7 @@ public class UserResponse extends BaseResponse {
     private String accessToken;
 
     public static UserResponse fromUser(User user) {
-        return UserResponse.builder()
+        UserResponse userResponse = UserResponse.builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
@@ -64,5 +64,10 @@ public class UserResponse extends BaseResponse {
                 .googleId(user.getGoogleId())
                 .accessToken(user.getAccessToken())
                 .build();
+
+        userResponse.setCreatedAt(user.getCreatedAt());
+        userResponse.setUpdatedAt(user.getUpdatedAt());
+
+        return userResponse;
     }
 }
