@@ -32,7 +32,7 @@ public class LessonController {
             @Valid @RequestBody LessonRequest lessonRequest
     ) throws DataNotFoundException {
         LessonResponse lessonResponse = lessonService.createLesson(lessonRequest);
-        return ResponseEntity.ok(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 ResponseObject.builder()
                         .message("Lesson created successfully")
                         .status(HttpStatus.CREATED)
@@ -91,11 +91,12 @@ public class LessonController {
     @DeleteMapping("/{lesson_id}")
     public ResponseEntity<ResponseObject> deleteLesson(
             @Valid @PathVariable("lesson_id") Long lessonId
-    ) {
+    ) throws DataNotFoundException {
         lessonService.deleteLesson(lessonId);
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Lesson deleted successfully")
+                        .data(null)
                         .status(HttpStatus.OK)
                         .build());
     }

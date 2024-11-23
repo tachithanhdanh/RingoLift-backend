@@ -15,5 +15,5 @@ public interface LessonService {
 
     List<LessonResponse> getLessonsByChapterId(Long chapterId);
 
-    void deleteLesson(Long lessonId);
+    void deleteLesson(Long lessonId) throws DataNotFoundException;
 }

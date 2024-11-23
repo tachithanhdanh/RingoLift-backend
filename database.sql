@@ -7,107 +7,123 @@ USE ringolift;
 -- 1. Tạo bảng 'user_gender'
 CREATE TABLE user_gender (
                              id INT AUTO_INCREMENT PRIMARY KEY,
-                             gender_type VARCHAR(50) NOT NULL UNIQUE
+                             gender_type VARCHAR(50) NOT NULL UNIQUE,
+                             created_at DATETIME,
+                             updated_at DATETIME
 );
 
 -- 1.1. Dữ liệu cho bảng 'user_gender'
-INSERT INTO user_gender (gender_type) VALUES
-                                          ('MALE'),
-                                          ('FEMALE');
-
+INSERT INTO user_gender (gender_type, created_at, updated_at) VALUES
+                                          ('MALE', NOW(), NOW()),
+                                          ('FEMALE', NOW(), NOW()),
+                                            ('OTHER', NOW(), NOW());
 -- 2. Tạo bảng 'book_genre'
 CREATE TABLE book_genre (
                             id INT AUTO_INCREMENT PRIMARY KEY,
-                            genre_type VARCHAR(50) NOT NULL UNIQUE
+                            genre_type VARCHAR(50) NOT NULL UNIQUE,
+                            created_at DATETIME,
+                            updated_at DATETIME
 );
 
 -- 2.1. Dữ liệu cho bảng 'book_genre'
-INSERT INTO book_genre (genre_type) VALUES
-                                        ('HORROR'),
-                                        ('FANTASY'),
-                                        ('SCIENCE_FICTION'),
-                                        ('ROMANCE'),
-                                        ('MYSTERY'),
-                                        ('THRILLER'),
-                                        ('HISTORICAL'),
-                                        ('ADVENTURE'),
-                                        ('DYSTOPIAN'),
-                                        ('BIOGRAPHY'),
-                                        ('AUTOBIOGRAPHY'),
-                                        ('SELF_HELP'),
-                                        ('NON_FICTION'),
-                                        ('POETRY'),
-                                        ('CLASSICS'),
-                                        ('DRAMA'),
-                                        ('YOUNG_ADULT'),
-                                        ('COMICS'),
-                                        ('GRAPHIC_NOVEL'),
-                                        ('LITERARY_FICTION'),
-                                        ('CONTEMPORARY');
+INSERT INTO book_genre (genre_type, created_at, updated_at) VALUES
+                                        ('HORROR', NOW(), NOW()),
+                                        ('FANTASY', NOW(), NOW()),
+                                        ('SCIENCE_FICTION', NOW(), NOW()),
+                                        ('ROMANCE', NOW(), NOW()),
+                                        ('MYSTERY', NOW(), NOW()),
+                                        ('THRILLER', NOW(), NOW()),
+                                        ('HISTORICAL', NOW(), NOW()),
+                                        ('ADVENTURE', NOW(), NOW()),
+                                        ('DYSTOPIAN', NOW(), NOW()),
+                                        ('BIOGRAPHY', NOW(), NOW()),
+                                        ('AUTOBIOGRAPHY', NOW(), NOW()),
+                                        ('SELF_HELP', NOW(), NOW()),
+                                        ('NON_FICTION', NOW(), NOW()),
+                                        ('POETRY', NOW(), NOW()),
+                                        ('CLASSICS', NOW(), NOW()),
+                                        ('DRAMA', NOW(), NOW()),
+                                        ('YOUNG_ADULT', NOW(), NOW()),
+                                        ('COMICS', NOW(), NOW()),
+                                        ('GRAPHIC_NOVEL', NOW(), NOW()),
+                                        ('LITERARY_FICTION', NOW(), NOW()),
+                                        ('CONTEMPORARY', NOW(), NOW());
 
 -- 3. Tạo bảng 'friend_status'
 CREATE TABLE friend_status (
                                id INT AUTO_INCREMENT PRIMARY KEY,
-                               status_type VARCHAR(50) NOT NULL UNIQUE
+                               status_type VARCHAR(50) NOT NULL UNIQUE,
+                               created_at DATETIME,
+                               updated_at DATETIME
 );
 
 -- 3.1. Dữ liệu cho bảng 'friend_status'
-INSERT INTO friend_status (status_type) VALUES
-                                            ('PENDING'),
-                                            ('ACCEPTED');
+INSERT INTO friend_status (status_type, created_at, updated_at) VALUES
+                                            ('PENDING', NOW(), NOW()),
+                                            ('REJECTED', NOW(), NOW()),
+                                            ('BLOCKED', NOW(), NOW()),
+                                            ('ACCEPTED', NOW(), NOW());
 
 -- 4. Tạo bảng 'question_type'
 CREATE TABLE question_type (
                                id INT AUTO_INCREMENT PRIMARY KEY,
-                               ques_type VARCHAR(50) NOT NULL UNIQUE
+                               ques_type VARCHAR(50) NOT NULL UNIQUE,
+                               created_at DATETIME,
+                               updated_at DATETIME
 );
 
 
 -- 4.1. Dữ liệu cho bảng 'question_type'
-INSERT INTO question_type (ques_type) VALUES
-                                     ('MULTIPLE_CHOICE'),
-                                     ('FILL_IN_THE_BLANK');
+INSERT INTO question_type (ques_type, created_at, updated_at) VALUES
+                                     ('MULTIPLE_CHOICE', NOW(), NOW()),
+                                     ('FILL_IN_THE_BLANK', NOW(), NOW());
 
 -- 5. Tạo bảng 'part_of_speech'
 CREATE TABLE part_of_speech (
                                 id INT AUTO_INCREMENT PRIMARY KEY,
-                                pos_type VARCHAR(50) NOT NULL UNIQUE
+                                pos_type VARCHAR(50) NOT NULL UNIQUE,
+                                created_at DATETIME,
+                                updated_at DATETIME
 );
 
 -- 5.1. Dữ liệu cho bảng 'part_of_speech'
-INSERT INTO part_of_speech (pos_type) VALUES
-                                          ('NOUN'),
-                                          ('PRONOUN'),
-                                          ('VERB'),
-                                          ('ADJECTIVE'),
-                                          ('ADVERB'),
-                                          ('PREPOSITION'),
-                                          ('CONJUNCTION'),
-                                          ('INTERJECTION'),
-                                          ('DETERMINER'),
-                                          ('ARTICLE');
+INSERT INTO part_of_speech (pos_type, created_at, updated_at) VALUES
+                                          ('NOUN', NOW(), NOW()),
+                                          ('PRONOUN', NOW(), NOW()),
+                                          ('VERB', NOW(), NOW()),
+                                          ('ADJECTIVE', NOW(), NOW()),
+                                          ('ADVERB', NOW(), NOW()),
+                                          ('PREPOSITION', NOW(), NOW()),
+                                          ('CONJUNCTION', NOW(), NOW()),
+                                          ('INTERJECTION', NOW(), NOW()),
+                                          ('DETERMINER', NOW(), NOW()),
+                                          ('ARTICLE', NOW(), NOW());
 
 -- 6. Tạo bảng 'word_status'
 CREATE TABLE word_status (
                              id INT AUTO_INCREMENT PRIMARY KEY,
-                             status_type VARCHAR(50) NOT NULL UNIQUE
+                             status_type VARCHAR(50) NOT NULL UNIQUE,
+                             created_at DATETIME,
+                             updated_at DATETIME
 );
 
 -- 6.1. Dữ liệu cho bảng 'word_status'
-INSERT INTO word_status (status_type) VALUES
-                                          ('FORGOT'),
-                                          ('LEARNED');
+INSERT INTO word_status (status_type, created_at, updated_at) VALUES
+                                          ('FORGOT', NOW(), NOW()),
+                                          ('LEARNED', NOW(), NOW());
 
 -- 7. Tạo bảng 'notification_type'
 CREATE TABLE notification_type (
                                    id INT AUTO_INCREMENT PRIMARY KEY,
-                                   noti_type VARCHAR(50) NOT NULL UNIQUE
+                                   noti_type VARCHAR(50) NOT NULL UNIQUE,
+                                   created_at DATETIME,
+                                   updated_at DATETIME
 );
 
 -- 7.1. Dữ liệu cho bảng 'notification_type'
-INSERT INTO notification_type (noti_type) VALUES
-                                         ('ACTIVITY'),
-                                         ('ACHIEVEMENT');
+INSERT INTO notification_type (noti_type, created_at, updated_at) VALUES
+                                         ('ACTIVITY', NOW(), NOW()),
+                                         ('ACHIEVEMENT', NOW(), NOW());
 
 -- 8. Tạo bảng 'users'
 CREATE TABLE users (

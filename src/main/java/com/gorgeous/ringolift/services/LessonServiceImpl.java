@@ -74,7 +74,10 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public void deleteLesson(Long lessonId) {
+    public void deleteLesson(Long lessonId) throws DataNotFoundException {
+        Lesson existingLesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new DataNotFoundException(
+                        "Cannot find lesson with id " + lessonId));
         lessonRepository.deleteById(lessonId);
     }
 }
