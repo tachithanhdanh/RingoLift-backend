@@ -9,6 +9,7 @@ import com.gorgeous.ringolift.requests.BookRequest;
 import com.gorgeous.ringolift.responses.BookResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void deleteBook(Long bookId) throws DataNotFoundException {
         if (!bookRepository.existsById(bookId)) {
             throw new DataNotFoundException("Book not found");

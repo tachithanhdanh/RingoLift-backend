@@ -7,6 +7,7 @@ import com.gorgeous.ringolift.requests.BookGenreRequest;
 import com.gorgeous.ringolift.responses.BookGenreResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class BookGenreServiceImpl implements BookGenreService {
     }
 
     @Override
+    @Transactional
     public void deleteBookGenre(Long bookGenreId) throws DataNotFoundException {
         if (!bookGenreRepository.existsById(bookGenreId)) {
             throw new DataNotFoundException("BookGenre not found");

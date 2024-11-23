@@ -10,6 +10,7 @@ import com.gorgeous.ringolift.responses.LessonResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +75,7 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
+    @Transactional
     public void deleteLesson(Long lessonId) {
         lessonRepository.deleteById(lessonId);
     }

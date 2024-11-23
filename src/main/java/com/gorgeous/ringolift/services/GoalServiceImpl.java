@@ -7,6 +7,7 @@ import com.gorgeous.ringolift.requests.GoalRequest;
 import com.gorgeous.ringolift.responses.GoalResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class GoalServiceImpl implements GoalService {
     }
 
     @Override
+    @Transactional
     public void deleteGoal(Long goalId) throws DataNotFoundException {
         if (!goalRepository.existsById(goalId)) {
             throw new DataNotFoundException("Goal not found");
