@@ -79,4 +79,15 @@ public class GlobalExceptionHandler {
                         .data(exception.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(DuplicateDataException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ResponseObject> handleDuplicateDataException(DuplicateDataException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.CONFLICT)
+                        .data(null)
+                        .build());
+    }
 }

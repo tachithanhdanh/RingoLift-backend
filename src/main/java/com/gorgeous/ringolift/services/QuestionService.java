@@ -3,6 +3,7 @@ package com.gorgeous.ringolift.services;
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.requests.QuestionRequest;
 import com.gorgeous.ringolift.requests.QuestionTypeRequest;
+import com.gorgeous.ringolift.responses.LessonQuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionTypeResponse;
 import java.util.List;
@@ -35,4 +36,9 @@ public interface QuestionService {
             throws DataNotFoundException;
 
     void deleteQuestionType(Long typeId) throws DataNotFoundException;
+
+    List<LessonQuestionResponse> getLessonsByQuestionId(Long questionId);
+
+    // Delete all rows that have the questionId
+    void removeAllLessonsFromQuestion(Long questionId) throws DataNotFoundException;
 }

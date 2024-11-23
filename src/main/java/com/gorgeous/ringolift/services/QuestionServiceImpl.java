@@ -3,12 +3,15 @@ package com.gorgeous.ringolift.services;
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.models.Question;
 import com.gorgeous.ringolift.models.QuestionType;
+import com.gorgeous.ringolift.repositories.LessonQuestionRepository;
 import com.gorgeous.ringolift.repositories.QuestionRepository;
 import com.gorgeous.ringolift.repositories.QuestionTypeRepository;
 import com.gorgeous.ringolift.requests.QuestionRequest;
 import com.gorgeous.ringolift.requests.QuestionTypeRequest;
+import com.gorgeous.ringolift.responses.LessonQuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionTypeResponse;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ public class QuestionServiceImpl implements
 
     private final QuestionRepository questionRepository;
     private final QuestionTypeRepository questionTypeRepository;
+    private final LessonQuestionRepository lessonQuestionRepository;
 
     @Override
     public QuestionResponse createQuestion(QuestionRequest questionRequest)
@@ -132,5 +136,17 @@ public class QuestionServiceImpl implements
                 .orElseThrow(() -> new DataNotFoundException(
                         "Cannot find question type with id " + typeId));
         questionTypeRepository.deleteById(typeId);
+    }
+
+    @Override
+    public List<LessonQuestionResponse> getLessonsByQuestionId(Long questionId) {
+        return LessonQuestionResponse.fromLessonQuestionList(
+                lessonQuestionRepository.findByQuestionId(questionId));
+    }
+
+    @Override
+    @Transactional
+    public void removeAllLessonsFromQuestion(Long questionId) throws DataNotFoundException {
+        lessonQuestionRepository.deleteByQuestionId(questionId);
     }
 }

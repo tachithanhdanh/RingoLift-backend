@@ -175,4 +175,30 @@ public class QuestionController {
                         .status(HttpStatus.OK)
                         .build());
     }
+
+    // Get lessons by question id
+    // GET localhost:8088/api/v1/questions/1/lessons
+    @GetMapping("/{question_id}/lessons")
+    public ResponseEntity<ResponseObject> getLessonsByQuestionId(
+            @Valid @PathVariable("question_id") Long questionId) {
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get list of lessons by question id successfully")
+                        .data(questionService.getLessonsByQuestionId(questionId))
+                        .status(HttpStatus.OK)
+                        .build());
+    }
+
+    // Remove all lessons from question
+    // DELETE localhost:8088/api/v1/questions/1/lessons
+    @DeleteMapping("/{question_id}/lessons")
+    public ResponseEntity<ResponseObject> removeAllLessonsFromQuestion(
+            @Valid @PathVariable("question_id") Long questionId) throws DataNotFoundException {
+        questionService.removeAllLessonsFromQuestion(questionId);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("All lessons removed from question successfully")
+                        .status(HttpStatus.OK)
+                        .build());
+    }
 }
