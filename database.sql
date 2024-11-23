@@ -4,74 +4,126 @@ DROP DATABASE IF EXISTS ringolift;
 CREATE DATABASE ringolift;
 USE ringolift;
 
--- 1. Tạo bảng 'user_gender' Enum
+-- 1. Tạo bảng 'user_gender'
 CREATE TABLE user_gender (
-                             gender ENUM('MALE', 'FEMALE') PRIMARY KEY
+                             id INT AUTO_INCREMENT PRIMARY KEY,
+                             gender_type VARCHAR(50) NOT NULL UNIQUE,
+                             created_at DATETIME,
+                             updated_at DATETIME
 );
 
--- 2. Tạo bảng 'book_genre' Enum
+-- 1.1. Dữ liệu cho bảng 'user_gender'
+INSERT INTO user_gender (gender_type, created_at, updated_at) VALUES
+                                                                  ('MALE', NOW(), NOW()),
+                                                                  ('FEMALE', NOW(), NOW()),
+                                                                  ('OTHER', NOW(), NOW());
+-- 2. Tạo bảng 'book_genre'
 CREATE TABLE book_genre (
-                            genre ENUM(
-                                'HORROR',
-                                'FANTASY',
-                                'SCIENCE_FICTION',
-                                'ROMANCE',
-                                'MYSTERY',
-                                'THRILLER',
-                                'HISTORICAL',
-                                'ADVENTURE',
-                                'DYSTOPIAN',
-                                'BIOGRAPHY',
-                                'AUTOBIOGRAPHY',
-                                'SELF_HELP',
-                                'NON_FICTION',
-                                'POETRY',
-                                'CLASSICS',
-                                'DRAMA',
-                                'YOUNG_ADULT',
-                                'CHILDRENS',
-                                'COMICS',
-                                'GRAPHIC_NOVEL',
-                                'LITERARY_FICTION',
-                                'CONTEMPORARY'
-                                ) PRIMARY KEY
+                            id INT AUTO_INCREMENT PRIMARY KEY,
+                            genre_type VARCHAR(50) NOT NULL UNIQUE,
+                            created_at DATETIME,
+                            updated_at DATETIME
 );
 
--- 3. Tạo bảng 'friend_status' Enum
+-- 2.1. Dữ liệu cho bảng 'book_genre'
+INSERT INTO book_genre (genre_type, created_at, updated_at) VALUES
+                                                                ('HORROR', NOW(), NOW()),
+                                                                ('FANTASY', NOW(), NOW()),
+                                                                ('SCIENCE_FICTION', NOW(), NOW()),
+                                                                ('ROMANCE', NOW(), NOW()),
+                                                                ('MYSTERY', NOW(), NOW()),
+                                                                ('THRILLER', NOW(), NOW()),
+                                                                ('HISTORICAL', NOW(), NOW()),
+                                                                ('ADVENTURE', NOW(), NOW()),
+                                                                ('DYSTOPIAN', NOW(), NOW()),
+                                                                ('BIOGRAPHY', NOW(), NOW()),
+                                                                ('AUTOBIOGRAPHY', NOW(), NOW()),
+                                                                ('SELF_HELP', NOW(), NOW()),
+                                                                ('NON_FICTION', NOW(), NOW()),
+                                                                ('POETRY', NOW(), NOW()),
+                                                                ('CLASSICS', NOW(), NOW()),
+                                                                ('DRAMA', NOW(), NOW()),
+                                                                ('YOUNG_ADULT', NOW(), NOW()),
+                                                                ('COMICS', NOW(), NOW()),
+                                                                ('GRAPHIC_NOVEL', NOW(), NOW()),
+                                                                ('LITERARY_FICTION', NOW(), NOW()),
+                                                                ('CONTEMPORARY', NOW(), NOW());
+
+-- 3. Tạo bảng 'friend_status'
 CREATE TABLE friend_status (
-                               status ENUM('PENDING', 'ACCEPTED') PRIMARY KEY
+                               id INT AUTO_INCREMENT PRIMARY KEY,
+                               status_type VARCHAR(50) NOT NULL UNIQUE,
+                               created_at DATETIME,
+                               updated_at DATETIME
 );
 
--- 4. Tạo bảng 'question_type' Enum
+-- 3.1. Dữ liệu cho bảng 'friend_status'
+INSERT INTO friend_status (status_type, created_at, updated_at) VALUES
+                                                                    ('PENDING', NOW(), NOW()),
+                                                                    ('REJECTED', NOW(), NOW()),
+                                                                    ('BLOCKED', NOW(), NOW()),
+                                                                    ('ACCEPTED', NOW(), NOW());
+
+-- 4. Tạo bảng 'question_type'
 CREATE TABLE question_type (
-                               type ENUM('MULTIPLE_CHOICE', 'FILL_IN_THE_BLANK') PRIMARY KEY
+                               id INT AUTO_INCREMENT PRIMARY KEY,
+                               ques_type VARCHAR(50) NOT NULL UNIQUE,
+                               created_at DATETIME,
+                               updated_at DATETIME
 );
 
--- 5. Tạo bảng 'part_of_speech' Enum
+
+-- 4.1. Dữ liệu cho bảng 'question_type'
+INSERT INTO question_type (ques_type, created_at, updated_at) VALUES
+                                                                  ('MULTIPLE_CHOICE', NOW(), NOW()),
+                                                                  ('FILL_IN_THE_BLANK', NOW(), NOW());
+
+-- 5. Tạo bảng 'part_of_speech'
 CREATE TABLE part_of_speech (
-                                pos ENUM(
-                                    'NOUN',
-                                    'PRONOUN',
-                                    'VERB',
-                                    'ADJECTIVE',
-                                    'ADVERB',
-                                    'PREPOSITION',
-                                    'CONJUNCTION',
-                                    'INTERJECTION',
-                                    'DETERMINER',
-                                    'ARTICLE'
-                                    ) PRIMARY KEY
+                                id INT AUTO_INCREMENT PRIMARY KEY,
+                                pos_type VARCHAR(50) NOT NULL UNIQUE,
+                                created_at DATETIME,
+                                updated_at DATETIME
 );
 
--- 6. Tạo bảng 'word_status' Enum
+-- 5.1. Dữ liệu cho bảng 'part_of_speech'
+INSERT INTO part_of_speech (pos_type, created_at, updated_at) VALUES
+                                                                  ('NOUN', NOW(), NOW()),
+                                                                  ('PRONOUN', NOW(), NOW()),
+                                                                  ('VERB', NOW(), NOW()),
+                                                                  ('ADJECTIVE', NOW(), NOW()),
+                                                                  ('ADVERB', NOW(), NOW()),
+                                                                  ('PREPOSITION', NOW(), NOW()),
+                                                                  ('CONJUNCTION', NOW(), NOW()),
+                                                                  ('INTERJECTION', NOW(), NOW()),
+                                                                  ('DETERMINER', NOW(), NOW()),
+                                                                  ('ARTICLE', NOW(), NOW());
+
+-- 6. Tạo bảng 'word_status'
 CREATE TABLE word_status (
-                             status ENUM('FORGOT', 'LEARNED') PRIMARY KEY
+                             id INT AUTO_INCREMENT PRIMARY KEY,
+                             status_type VARCHAR(50) NOT NULL UNIQUE,
+                             created_at DATETIME,
+                             updated_at DATETIME
 );
 
--- 7. Tạo bảng 'notification_type' Enum
+-- 6.1. Dữ liệu cho bảng 'word_status'
+INSERT INTO word_status (status_type, created_at, updated_at) VALUES
+                                                                  ('FORGOT', NOW(), NOW()),
+                                                                  ('LEARNED', NOW(), NOW());
+
+-- 7. Tạo bảng 'notification_type'
 CREATE TABLE notification_type (
-                                   type ENUM('ACTIVITY', 'ACHIEVEMENT') PRIMARY KEY
+                                   id INT AUTO_INCREMENT PRIMARY KEY,
+                                   noti_type VARCHAR(50) NOT NULL UNIQUE,
+                                   created_at DATETIME,
+                                   updated_at DATETIME
 );
+
+-- 7.1. Dữ liệu cho bảng 'notification_type'
+INSERT INTO notification_type (noti_type, created_at, updated_at) VALUES
+                                                                      ('ACTIVITY', NOW(), NOW()),
+                                                                      ('ACHIEVEMENT', NOW(), NOW());
 
 -- 8. Tạo bảng 'users'
 CREATE TABLE users (
@@ -81,7 +133,7 @@ CREATE TABLE users (
                        first_name VARCHAR(255),
                        last_name VARCHAR(255),
                        date_of_birth DATETIME,
-                       gender ENUM('MALE', 'FEMALE'),
+                       gender_id INT,
                        picture VARCHAR(255),
                        goal_id INT,
                        password VARCHAR(255),
@@ -90,7 +142,7 @@ CREATE TABLE users (
                        access_token VARCHAR(255),
                        created_at DATETIME,
                        updated_at DATETIME,
-                       FOREIGN KEY (gender) REFERENCES user_gender(gender)
+                       FOREIGN KEY (gender_id) REFERENCES user_gender(id)
 );
 
 -- 9. Tạo bảng 'goals'
@@ -103,40 +155,12 @@ CREATE TABLE goals (
                        updated_at DATETIME
 );
 
--- Cập nhật khóa ngoại cho 'users.goal_id' sau khi tạo bảng 'goals'
-ALTER TABLE users
-    ADD CONSTRAINT fk_users_goals
-        FOREIGN KEY (goal_id) REFERENCES goals(id);
-
 -- 10. Tạo bảng 'books'
 CREATE TABLE books (
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        title VARCHAR(255) NOT NULL,
                        author VARCHAR(255),
-                       genre ENUM(
-                           'HORROR',
-                           'FANTASY',
-                           'SCIENCE_FICTION',
-                           'ROMANCE',
-                           'MYSTERY',
-                           'THRILLER',
-                           'HISTORICAL',
-                           'ADVENTURE',
-                           'DYSTOPIAN',
-                           'BIOGRAPHY',
-                           'AUTOBIOGRAPHY',
-                           'SELF_HELP',
-                           'NON_FICTION',
-                           'POETRY',
-                           'CLASSICS',
-                           'DRAMA',
-                           'YOUNG_ADULT',
-                           'CHILDRENS',
-                           'COMICS',
-                           'GRAPHIC_NOVEL',
-                           'LITERARY_FICTION',
-                           'CONTEMPORARY'
-                           ),
+                       genre_id INT,
                        published_date DATE,
                        isbn VARCHAR(255),
                        num_of_pages INT,
@@ -146,7 +170,7 @@ CREATE TABLE books (
                        content_url VARCHAR(255),
                        created_at DATETIME,
                        updated_at DATETIME,
-                       FOREIGN KEY (genre) REFERENCES book_genre(genre)
+                       FOREIGN KEY (genre_id) REFERENCES book_genre(id)
 );
 
 -- 11. Tạo bảng 'friends'
@@ -154,12 +178,12 @@ CREATE TABLE friends (
                          id INT AUTO_INCREMENT PRIMARY KEY,
                          sender_id INT,
                          receiver_id INT,
-                         status ENUM('PENDING', 'ACCEPTED'),
+                         status_id INT,
                          created_at DATETIME,
                          updated_at DATETIME,
                          FOREIGN KEY (sender_id) REFERENCES users(id),
                          FOREIGN KEY (receiver_id) REFERENCES users(id),
-                         FOREIGN KEY (status) REFERENCES friend_status(status)
+                         FOREIGN KEY (status_id) REFERENCES friend_status(id)
 );
 
 -- 12. Tạo bảng 'questions'
@@ -168,10 +192,10 @@ CREATE TABLE questions (
                            content TEXT NOT NULL,
                            audio_url VARCHAR(255),
                            hint TEXT,
-                           type ENUM('MULTIPLE_CHOICE', 'FILL_IN_THE_BLANK'),
+                           type_id INT,
                            created_at DATETIME,
                            updated_at DATETIME,
-                           FOREIGN KEY (type) REFERENCES question_type(type)
+                           FOREIGN KEY (type_id) REFERENCES question_type(id)
 );
 
 -- 13. Tạo bảng 'answers'
@@ -191,24 +215,13 @@ CREATE TABLE words (
                        word VARCHAR(255) NOT NULL,
                        meaning VARCHAR(255) NOT NULL,
                        topic VARCHAR(255),
-                       part_of_speech ENUM(
-                           'NOUN',
-                           'PRONOUN',
-                           'VERB',
-                           'ADJECTIVE',
-                           'ADVERB',
-                           'PREPOSITION',
-                           'CONJUNCTION',
-                           'INTERJECTION',
-                           'DETERMINER',
-                           'ARTICLE'
-                           ),
+                       part_of_speech_id INT,
                        pronunciation VARCHAR(255),
                        audio_url VARCHAR(255),
                        example_sentence TEXT,
                        created_at DATETIME,
                        updated_at DATETIME,
-                       FOREIGN KEY (part_of_speech) REFERENCES part_of_speech(pos)
+                       FOREIGN KEY (part_of_speech_id) REFERENCES part_of_speech(id)
 );
 
 -- 15. Tạo bảng 'word_progress'
@@ -216,13 +229,13 @@ CREATE TABLE word_progress (
                                id INT AUTO_INCREMENT PRIMARY KEY,
                                user_id INT,
                                word_id INT,
-                               status ENUM('FORGOT', 'LEARNED'),
+                               status_id INT,
                                note TEXT,
                                created_at DATETIME,
                                updated_at DATETIME,
                                FOREIGN KEY (user_id) REFERENCES users(id),
                                FOREIGN KEY (word_id) REFERENCES words(id),
-                               FOREIGN KEY (status) REFERENCES word_status(status)
+                               FOREIGN KEY (status_id) REFERENCES word_status(id)
 );
 
 -- 16. Tạo bảng 'chapters'
@@ -339,14 +352,14 @@ CREATE TABLE messages (
 CREATE TABLE notifications (
                                id INT AUTO_INCREMENT PRIMARY KEY,
                                user_id INT,
-                               type ENUM('ACTIVITY', 'ACHIEVEMENT'),
+                               type_id INT,
                                content TEXT,
                                is_read BOOLEAN,
                                is_deleted BOOLEAN,
                                created_at DATETIME,
                                updated_at DATETIME,
                                FOREIGN KEY (user_id) REFERENCES users(id),
-                               FOREIGN KEY (type) REFERENCES notification_type(type)
+                               FOREIGN KEY (type_id) REFERENCES notification_type(id)
 );
 
 -- 26. Tạo bảng 'admins'
