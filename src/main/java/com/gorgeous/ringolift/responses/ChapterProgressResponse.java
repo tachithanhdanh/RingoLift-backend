@@ -2,6 +2,7 @@ package com.gorgeous.ringolift.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.ChapterProgress;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,5 +37,9 @@ public class ChapterProgressResponse extends BaseResponse{
         chapterProgressResponse.setCreatedAt(chapterProgress.getCreatedAt());
         chapterProgressResponse.setUpdatedAt(chapterProgress.getUpdatedAt());
         return chapterProgressResponse;
+    }
+
+    public static List<ChapterProgressResponse> fromChapterProgressList(List<ChapterProgress> chapterProgressList) {
+        return chapterProgressList.stream().map(ChapterProgressResponse::fromChapterProgress).toList();
     }
 }

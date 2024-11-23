@@ -3,6 +3,7 @@ package com.gorgeous.ringolift.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.LessonProgress;
 import jakarta.persistence.Column;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,5 +46,9 @@ public class LessonProgressResponse extends BaseResponse{
         lessonProgressResponse.setCreatedAt(lessonProgress.getCreatedAt());
         lessonProgressResponse.setUpdatedAt(lessonProgress.getUpdatedAt());
         return lessonProgressResponse;
+    }
+
+    public static List<LessonProgressResponse> fromLessonProgressList(List<LessonProgress> lessonProgressList) {
+        return lessonProgressList.stream().map(LessonProgressResponse::fromLessonProgress).toList();
     }
 }
