@@ -26,3 +26,13 @@ api:
 jwt:
   expiration: 86400000 # 1 day = 1 * 24 * 60 * 60 * 1000
   secret: c084c6c02018c2ffde56d05a2cf9d35c641d21714972711d459d6bff4988ee62c8364f4ca8c2e93ba74a5663fbc85b5a3ea4bf97d539809dfc40af1a07438e9ab26dbefa4604c5a9b39aacce31292397d50146752939025665383dedab51fb6da6dcf86dc94a5e03f39daefbde6d06fb3f326797a5f67f48c6af00958fa4a970
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: DEBUG
+#      com:
+#        ringolift:
+#          controller: DEBUG
+#          service: DEBUG
+#          repository: DEBUG

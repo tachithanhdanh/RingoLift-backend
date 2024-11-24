@@ -11,5 +11,5 @@ public interface ChapterService {
     public List<ChapterResponse> getAllChapters();
     public ChapterResponse updateChapter(Long id, ChapterRequest chapterRequest)
             throws DataNotFoundException;
-    public void deleteChapter(Long id);
+    public void deleteChapter(Long id) throws DataNotFoundException;
 }
