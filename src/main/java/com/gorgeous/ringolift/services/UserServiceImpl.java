@@ -175,6 +175,7 @@ public class UserServiceImpl implements UserService {
                 chapterProgressRepository.save(existingChapterProgress));
     }
 
+    @Transactional
     @Override
     public void deleteChapterProgress(Long userId, Long chapterId) {
         chapterProgressRepository.deleteByUserIdAndChapterId(userId, chapterId);
@@ -246,15 +247,19 @@ public class UserServiceImpl implements UserService {
         existingLessonProgress.setCorrectCount(lessonProgressRequest.getCorrectCount());
         existingLessonProgress.setIncorrectCount(lessonProgressRequest.getIncorrectCount());
         existingLessonProgress.setTimeSpent(lessonProgressRequest.getTimeSpent());
+        existingLessonProgress.setLesson(existingLesson);
+        existingLessonProgress.setUser(existingUser);
         return LessonProgressResponse.fromLessonProgress(
                 lessonProgressRepository.save(existingLessonProgress));
     }
 
+    @Transactional
     @Override
     public void deleteLessonProgress(Long userId, Long lessonId) {
         lessonProgressRepository.deleteByUserIdAndLessonId(userId, lessonId);
     }
 
+    @Transactional
     @Override
     public void deleteLessonProgressByUserId(Long userId) {
         lessonProgressRepository.deleteByUserId(userId);

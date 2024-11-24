@@ -96,12 +96,15 @@ public class UserController {
     }
 
     // Create chapter progress
-    // POST localhost:8088/api/v1/users/1/progress/chapter
-    @PostMapping("/{user_id}/progress/chapter")
+    // POST localhost:8088/api/v1/users/1/progress/chapter/{chapter_id}
+    @PostMapping("/{user_id}/progress/chapter/{chapter_id}")
     public ResponseEntity<ResponseObject> createChapterProgress(
             @PathVariable("user_id") Long userId,
+            @PathVariable("chapter_id") Long chapterId,
             @Valid @RequestBody ChapterProgressRequest chapterProgressRequest
     ) throws DataNotFoundException, DuplicateDataException {
+        chapterProgressRequest.setChapterId(chapterId);
+        chapterProgressRequest.setUserId(userId);
         ChapterProgressResponse chapterProgressResponse = userService.createChapterProgress(chapterProgressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ResponseObject.builder()
@@ -144,8 +147,8 @@ public class UserController {
     }
 
     // Update chapter progress by user id and chapter id
-    // PUT localhost:8088/api/v1/users/1/project/chapter/1
-    @PutMapping("/{user_id}/chapter-progress/{chapter_id}")
+    // PUT localhost:8088/api/v1/users/1/progress/chapter/1
+    @PutMapping("/{user_id}/progress/chapter/{chapter_id}")
     public ResponseEntity<ResponseObject> updateChapterProgress(
             @PathVariable("user_id") Long userId,
             @PathVariable("chapter_id") Long chapterId,
@@ -162,8 +165,8 @@ public class UserController {
     }
 
     // Delete chapter progress by user id and chapter id
-    // DELETE localhost:8088/api/v1/users/1/project/chapter/1
-    @DeleteMapping("/{user_id}/chapter-progress/{chapter_id}")
+    // DELETE localhost:8088/api/v1/users/1/progress/chapter/1
+    @DeleteMapping("/{user_id}/progress/chapter/{chapter_id}")
     public ResponseEntity<ResponseObject> deleteChapterProgress(
             @PathVariable("user_id") Long userId,
             @PathVariable("chapter_id") Long chapterId
@@ -193,12 +196,15 @@ public class UserController {
     }
 
     // Create lesson progress
-    // POST localhost:8088/api/v1/users/1/progress/lesson
-    @PostMapping("/{user_id}/progress/lesson")
+    // POST localhost:8088/api/v1/users/1/progress/lesson/{lesson_id}
+    @PostMapping("/{user_id}/progress/lesson/{lesson_id}")
     public ResponseEntity<ResponseObject> createLessonProgress(
             @PathVariable("user_id") Long userId,
+            @PathVariable("lesson_id") Long lessonId,
             @Valid @RequestBody LessonProgressRequest lessonProgressRequest
     ) throws DataNotFoundException, DuplicateDataException {
+        lessonProgressRequest.setLessonId(lessonId);
+        lessonProgressRequest.setUserId(userId);
         LessonProgressResponse lessonProgressResponse = userService.createLessonProgress(lessonProgressRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ResponseObject.builder()
@@ -269,6 +275,20 @@ public class UserController {
         return ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Delete lesson progress successfully")
+                        .status(HttpStatus.OK)
+                        .data(null)
+                        .build()
+        );
+    }
+
+    // Delete lesson progress by user id
+    // DELETE localhost:8088/api/v1/users/1/progress/lesson
+    @DeleteMapping("/{user_id}/progress/lesson")
+    public ResponseEntity<ResponseObject> deleteLessonProgressByUserId(@PathVariable("user_id") Long userId) {
+        userService.deleteLessonProgressByUserId(userId);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Delete lesson progress by user id successfully")
                         .status(HttpStatus.OK)
                         .data(null)
                         .build()
