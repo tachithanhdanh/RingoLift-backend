@@ -2,11 +2,9 @@ package com.gorgeous.ringolift.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.Goal;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
