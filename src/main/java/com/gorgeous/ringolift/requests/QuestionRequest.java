@@ -1,8 +1,6 @@
 package com.gorgeous.ringolift.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gorgeous.ringolift.models.Question;
-import com.gorgeous.ringolift.models.QuestionType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
