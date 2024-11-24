@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DailyProgressResponse {
+public class DailyProgressResponse extends BaseResponse {
 
     @JsonProperty("id")
     private Long id;
@@ -29,12 +29,15 @@ public class DailyProgressResponse {
     private Integer wordCount;
 
     public static DailyProgressResponse fromDailyProgress(DailyProgress dailyProgress) {
-        return DailyProgressResponse.builder()
+        DailyProgressResponse dailyProgressResponse = DailyProgressResponse.builder()
                 .id(dailyProgress.getId())
                 .userId(dailyProgress.getUser().getId())
                 .timeSpent(dailyProgress.getTimeSpent())
                 .lessonCount(dailyProgress.getLessonCount())
                 .wordCount(dailyProgress.getWordCount())
                 .build();
+        dailyProgressResponse.setCreatedAt(dailyProgress.getCreatedAt());
+        dailyProgressResponse.setUpdatedAt(dailyProgress.getUpdatedAt());
+        return dailyProgressResponse;
     }
 }
