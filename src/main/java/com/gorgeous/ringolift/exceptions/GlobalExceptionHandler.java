@@ -1,6 +1,7 @@
 package com.gorgeous.ringolift.exceptions;
 
 import com.gorgeous.ringolift.responses.ResponseObject;
+import jakarta.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ResponseObject> handleGeneralException(Exception exception) {
+        String exceptionType = exception.getClass().getName(); // Fully qualified exception class name
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResponseObject.builder()
-                        .message(exception.getMessage())
+                        .message(exceptionType)
                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .data(null)
+                        .data(exception.getMessage())
                         .build());
     }
 
@@ -64,6 +66,28 @@ public class GlobalExceptionHandler {
                         .message(message)
                         .status(HttpStatus.BAD_REQUEST)
                         .data(errors)
+                        .build());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handleValidationException(ValidationException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message("Validation error")
+                        .status(HttpStatus.BAD_REQUEST)
+                        .data(exception.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(DuplicateDataException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ResponseObject> handleDuplicateDataException(DuplicateDataException exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.CONFLICT)
+                        .data(null)
                         .build());
     }
 }
