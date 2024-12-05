@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -17,11 +18,9 @@ public class NotificationType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Column(name = "noti_type", nullable = false, unique = true)
     private String notiType;
 
 
-    public String getNotiType() {
-        return notiType;
-    }
 }

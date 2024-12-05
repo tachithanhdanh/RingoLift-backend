@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FeedBackRequest {
+public class FeedbackRequest {
 
     @NotNull(message = "User ID cannot be null")
     @JsonProperty("user_id")

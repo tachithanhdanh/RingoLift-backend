@@ -1,10 +1,10 @@
 package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
-import com.gorgeous.ringolift.requests.FeedBackRequest;
-import com.gorgeous.ringolift.responses.FeedBackResponse;
+import com.gorgeous.ringolift.requests.FeedbackRequest;
+import com.gorgeous.ringolift.responses.FeedbackResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
-import com.gorgeous.ringolift.services.FeedBackService;
+import com.gorgeous.ringolift.services.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,20 +18,20 @@ import java.util.List;
 @RestController
 @RequestMapping("${api.prefix}/feedbacks")
 @RequiredArgsConstructor
-public class FeedBackController {
+public class FeedbackController {
 
-    private static final Logger logger = LoggerFactory.getLogger(FeedBackController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FeedbackController.class);
 
-    private final FeedBackService feedbackService;
+    private final FeedbackService feedbackService;
 
     /**
      * Create a new feedback.
      * POST /api/v1/feedbacks
      */
     @PostMapping
-    public ResponseEntity<ResponseObject> createFeedback(@Validated @RequestBody FeedBackRequest request) {
+    public ResponseEntity<ResponseObject> createFeedback(@Validated @RequestBody FeedbackRequest request) {
         try {
-            FeedBackResponse feedbackResponse = feedbackService.createFeedback(request);
+            FeedbackResponse feedbackResponse = feedbackService.createFeedback(request);
             logger.info("Feedback created successfully with ID: {}", feedbackResponse.getId());
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseObject("Feedback created successfully", HttpStatus.CREATED, feedbackResponse));
@@ -49,7 +49,7 @@ public class FeedBackController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getFeedback(@PathVariable Long id) {
         try {
-            FeedBackResponse feedbackResponse = feedbackService.getFeedback(id);
+            FeedbackResponse feedbackResponse = feedbackService.getFeedback(id);
             return ResponseEntity.ok(new ResponseObject("Feedback retrieved successfully", HttpStatus.OK, feedbackResponse));
         } catch (DataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -70,7 +70,7 @@ public class FeedBackController {
             @PathVariable Long userId,
             @PathVariable Long lessonId) {
         try {
-            List<FeedBackResponse> feedbackResponses = feedbackService.getFeedbacksByUserAndLesson(userId, lessonId);
+            List<FeedbackResponse> feedbackResponses = feedbackService.getFeedbacksByUserAndLesson(userId, lessonId);
             if (feedbackResponses.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("No feedback found", HttpStatus.NOT_FOUND, null));
@@ -90,9 +90,9 @@ public class FeedBackController {
     @PutMapping("/update/{feedbackId}")
     public ResponseEntity<ResponseObject> updateFeedback(
             @PathVariable Long feedbackId, // Add feedbackId here
-            @Validated @RequestBody FeedBackRequest request) {
+            @Validated @RequestBody FeedbackRequest request) {
         try {
-            FeedBackResponse feedbackResponse = feedbackService.updateFeedback(feedbackId, request);
+            FeedbackResponse feedbackResponse = feedbackService.updateFeedback(feedbackId, request);
             return ResponseEntity.ok(new ResponseObject("Feedback updated successfully", HttpStatus.OK, feedbackResponse));
         } catch (DataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

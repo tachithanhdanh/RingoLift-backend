@@ -1,14 +1,14 @@
 package com.gorgeous.ringolift.services;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
-import com.gorgeous.ringolift.models.FeedBack;
+import com.gorgeous.ringolift.models.Feedback;
 import com.gorgeous.ringolift.models.Lesson;
 import com.gorgeous.ringolift.models.User;
-import com.gorgeous.ringolift.repositories.FeedBackRepository;
+import com.gorgeous.ringolift.repositories.FeedbackRepository;
 import com.gorgeous.ringolift.repositories.LessonRepository;
 import com.gorgeous.ringolift.repositories.UserRepository;
-import com.gorgeous.ringolift.requests.FeedBackRequest;
-import com.gorgeous.ringolift.responses.FeedBackResponse;
+import com.gorgeous.ringolift.requests.FeedbackRequest;
+import com.gorgeous.ringolift.responses.FeedbackResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FeedBackServiceImpl implements FeedBackService {
+public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
-    private FeedBackRepository feedbackRepository;
+    private FeedbackRepository feedbackRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -28,34 +28,34 @@ public class FeedBackServiceImpl implements FeedBackService {
     private LessonRepository lessonRepository;
 
     @Override
-    public FeedBackResponse createFeedback(FeedBackRequest request) throws DataNotFoundException {
+    public FeedbackResponse createFeedback(FeedbackRequest request) throws DataNotFoundException {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new DataNotFoundException("User not found with ID: " + request.getUserId()));
         Lesson lesson = lessonRepository.findById(request.getLessonId())
                 .orElseThrow(() -> new DataNotFoundException("Lesson not found with ID: " + request.getLessonId()));
 
-        FeedBack feedback = new FeedBack();
+        Feedback feedback = new Feedback();
         feedback.setUser(user);
         feedback.setLesson(lesson);
         feedback.setStars(request.getStars());
         feedback.setComment(request.getComment());
 
-        FeedBack savedFeedback = feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.save(feedback);
 
         return mapToResponse(savedFeedback);
     }
 
     @Override
-    public FeedBackResponse getFeedback(Long id) throws DataNotFoundException {
-        FeedBack feedback = feedbackRepository.findById(id)
+    public FeedbackResponse getFeedback(Long id) throws DataNotFoundException {
+        Feedback feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Feedback not found with ID: " + id));
 
         return mapToResponse(feedback);
     }
 
     @Override
-    public FeedBackResponse updateFeedback(Long feedbackId, FeedBackRequest request) throws DataNotFoundException {
-        FeedBack feedback = feedbackRepository.findById(feedbackId)
+    public FeedbackResponse updateFeedback(Long feedbackId, FeedbackRequest request) throws DataNotFoundException {
+        Feedback feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new DataNotFoundException("Feedback not found with ID: " + feedbackId));
 
         // Ensure the user is authorized to update this feedback
@@ -71,7 +71,7 @@ public class FeedBackServiceImpl implements FeedBackService {
         feedback.setStars(request.getStars());
         feedback.setComment(request.getComment());
 
-        FeedBack updatedFeedback = feedbackRepository.save(feedback);
+        Feedback updatedFeedback = feedbackRepository.save(feedback);
 
         return mapToResponse(updatedFeedback);
     }
@@ -79,7 +79,7 @@ public class FeedBackServiceImpl implements FeedBackService {
 
     @Override
     public void deleteFeedback(Long feedbackId, Long userId, Long lessonId) throws DataNotFoundException {
-        FeedBack feedback = feedbackRepository.findById(feedbackId)
+        Feedback feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new DataNotFoundException("Feedback not found with ID: " + feedbackId));
 
         // Ensure the user is authorized to delete this feedback
@@ -96,19 +96,19 @@ public class FeedBackServiceImpl implements FeedBackService {
     }
 
     @Override
-    public List<FeedBackResponse> getFeedbacksByUserAndLesson(Long userId, Long lessonId) throws DataNotFoundException {
+    public List<FeedbackResponse> getFeedbacksByUserAndLesson(Long userId, Long lessonId) throws DataNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("User not found with ID: " + userId));
         Lesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new DataNotFoundException("Lesson not found with ID: " + lessonId));
 
-        List<FeedBack> feedbacks = feedbackRepository.findByUserIdAndLessonId(userId, lessonId);
+        List<Feedback> feedbacks = feedbackRepository.findByUserIdAndLessonId(userId, lessonId);
         return feedbacks.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
-    private FeedBackResponse mapToResponse(FeedBack feedback) {
-        return FeedBackResponse.fromFeedBack(feedback);
+    private FeedbackResponse mapToResponse(Feedback feedback) {
+        return FeedbackResponse.fromFeedBack(feedback);
     }
 }

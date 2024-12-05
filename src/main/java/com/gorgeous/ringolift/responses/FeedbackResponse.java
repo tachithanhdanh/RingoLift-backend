@@ -1,6 +1,6 @@
 package com.gorgeous.ringolift.responses;
 
-import com.gorgeous.ringolift.models.FeedBack;
+import com.gorgeous.ringolift.models.Feedback;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -8,15 +8,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FeedBackResponse extends BaseResponse {
+public class FeedbackResponse extends BaseResponse {
     private Long id;
     private Long userId;
     private Long lessonId;
     private String content;
 
     // Method to convert a FeedBack entity to FeedBackResponse
-    public static FeedBackResponse fromFeedBack(FeedBack feedback) {
-        FeedBackResponse feedbackResponse = FeedBackResponse.builder()
+    public static FeedbackResponse fromFeedBack(Feedback feedback) {
+        FeedbackResponse feedbackResponse = FeedbackResponse.builder()
                 .id(feedback.getId())
                 .userId(feedback.getUser().getId())
                 .lessonId(feedback.getLesson().getId())
