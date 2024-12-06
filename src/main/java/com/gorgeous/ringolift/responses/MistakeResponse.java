@@ -1,5 +1,6 @@
 package com.gorgeous.ringolift.responses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.Mistake;
 import lombok.*;
 
@@ -9,10 +10,19 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class MistakeResponse extends BaseResponse {
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("user_id")
     private Long userId;
+
+    @JsonProperty("lesson_id")
     private Long lessonId;
+
+    @JsonProperty("question_id")
     private Long questionId;
+
+    @JsonProperty("active")
     private Boolean active;
 
     public MistakeResponse(Mistake mistake) {

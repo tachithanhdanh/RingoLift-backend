@@ -10,22 +10,20 @@ import com.gorgeous.ringolift.repositories.NotificationRepository;
 import com.gorgeous.ringolift.requests.NotificationRequest;
 import com.gorgeous.ringolift.responses.NotificationResponse;
 import com.gorgeous.ringolift.services.NotificationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class NotificationServiceImpl implements NotificationService {
-
-    @Autowired
     private NotificationRepository notificationRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private NotificationTypeRepository notificationTypeRepository;
 
     @Override

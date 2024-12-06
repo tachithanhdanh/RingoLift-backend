@@ -1,5 +1,6 @@
 package com.gorgeous.ringolift.responses;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.Answer;
 import lombok.*;
 
@@ -9,9 +10,16 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AnswerResponse extends BaseResponse {
+    @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("content")
     private String content;
+
+    @JsonProperty("is_correct")
     private Boolean isCorrect;
+
+    @JsonProperty("question_id")
     private Long questionId;
 
     public static AnswerResponse fromAnswer(Answer answer) {

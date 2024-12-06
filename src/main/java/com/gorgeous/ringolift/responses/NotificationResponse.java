@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class NotificationResponse extends BaseResponse {
+    @JsonProperty("id")
 
     private Long id; // Sửa Integer thành Long
 
@@ -18,6 +19,7 @@ public class NotificationResponse extends BaseResponse {
     @JsonProperty("notification_type")
     private String notificationType;
 
+    @JsonProperty("content")
     private String content;
 
     @JsonProperty("is_read")
@@ -28,9 +30,6 @@ public class NotificationResponse extends BaseResponse {
 
     // Phương thức chuyển đổi từ model Notification sang NotificationResponse
     public static NotificationResponse fromNotification(com.gorgeous.ringolift.models.Notification notification) {
-        // Thêm logging để kiểm tra user và notificationType có null không
-        System.out.println("User: " + notification.getUser());
-        System.out.println("Notification Type: " + notification.getNotificationType());
 
         NotificationResponse notificationResponse = NotificationResponse.builder()
                 .id(notification.getId())

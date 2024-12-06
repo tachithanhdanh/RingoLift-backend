@@ -16,14 +16,10 @@ import jakarta.validation.Valid;
 @RequestMapping("${api.prefix}/answers")
 @CrossOrigin(origins = "*")
 public class AnswerController {
-
-    private static final Logger logger = LoggerFactory.getLogger(AnswerController.class);
-
     private final AnswerService answerService;
 
     public AnswerController(AnswerService answerService) {
         this.answerService = answerService;
-        logger.info("AnswerController initialized");
     }
 
     /**
@@ -32,17 +28,13 @@ public class AnswerController {
      */
     @PostMapping
     public ResponseEntity<ResponseObject> createAnswer(@Valid @RequestBody AnswerRequest request) {
-        logger.info("Received create answer request - Request: {}", request);
-
         try {
             // Attempt to create answer
             AnswerResponse response = answerService.createAnswer(request);
-            logger.info("Answer created successfully with ID: {}", response.getId());
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseObject("Answer created successfully", HttpStatus.CREATED, response));
         } catch (Exception e) {
-            logger.error("Unexpected error while creating answer", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error creating answer: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
@@ -57,7 +49,6 @@ public class AnswerController {
     public ResponseEntity<ResponseObject> updateAnswer(
             @PathVariable Long answerId,   // Only answerId comes from the path
             @Valid @RequestBody AnswerRequest request) {  // Include questionId in the request body
-        logger.info("Received update answer request - Answer ID: {}, Request: {}", answerId, request);
 
         try {
             // Validate if the questionId is provided in the request body
@@ -68,15 +59,12 @@ public class AnswerController {
 
             // Proceed with the update logic using the answerId from the path and questionId from the body
             AnswerResponse response = answerService.updateAnswer(answerId, request.getQuestionId(), request);
-            logger.info("Answer updated successfully with ID: {} for Question ID: {}", response.getId(), request.getQuestionId());
 
             return ResponseEntity.ok(new ResponseObject("Answer updated successfully", HttpStatus.OK, response));
         } catch (DataNotFoundException e) {
-            logger.error("Data not found while updating answer: Answer ID: {}, Question ID: {}", answerId, request.getQuestionId(), e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject("Answer or Question not found", HttpStatus.NOT_FOUND, null));
         } catch (Exception e) {
-            logger.error("Unexpected error while updating answer: Answer ID: {}, Question ID: {}", answerId, request.getQuestionId(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error updating answer: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
@@ -90,20 +78,16 @@ public class AnswerController {
      */
     @GetMapping("/{questionId}")
     public ResponseEntity<ResponseObject> getAnswersByQuestionId(@PathVariable Long questionId) {
-        logger.info("Retrieving answers for Question ID: {}", questionId);
 
         try {
             var responses = answerService.getAnswersByQuestionId(questionId);
             if (responses.isEmpty()) {
-                logger.info("No answers found for Question ID: {}", questionId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("No answers found for this question", HttpStatus.NOT_FOUND, null));
             }
-            logger.info("Found {} answers for Question ID: {}", responses.size(), questionId);
 
             return ResponseEntity.ok(new ResponseObject("Answers fetched successfully", HttpStatus.OK, responses));
         } catch (Exception e) {
-            logger.error("Unexpected error while fetching answers for Question ID: {}", questionId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error fetching answers: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
@@ -117,21 +101,17 @@ public class AnswerController {
     @GetMapping("/{questionId}/{isCorrect}")
     public ResponseEntity<ResponseObject> getAnswersByQuestionIdAndStatus(
             @PathVariable Long questionId, @PathVariable boolean isCorrect) {
-        logger.info("Retrieving answers for Question ID: {} with correctness: {}", questionId, isCorrect);
 
         try {
             var responses = answerService.getAnswersByQuestionIdAndStatus(questionId, isCorrect);
             if (responses.isEmpty()) {
-                logger.info("No answers found for Question ID: {} with correctness: {}", questionId, isCorrect);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("No answers found for this question with the specified correctness",
                                 HttpStatus.NOT_FOUND, null));
             }
-            logger.info("Found {} answers for Question ID: {} with correctness: {}", responses.size(), questionId, isCorrect);
 
             return ResponseEntity.ok(new ResponseObject("Answers fetched successfully", HttpStatus.OK, responses));
         } catch (Exception e) {
-            logger.error("Unexpected error while fetching answers for Question ID: {} with correctness: {}", questionId, isCorrect, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error fetching answers: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
@@ -145,31 +125,17 @@ public class AnswerController {
     @DeleteMapping("/{questionId}/{answerId}")
     public ResponseEntity<ResponseObject> deleteAnswer(
             @PathVariable Long questionId, @PathVariable Long answerId) {
-        logger.info("Deleting answer with Answer ID: {} for Question ID: {}", answerId, questionId);
 
         try {
             answerService.deleteAnswer(questionId, answerId);
-            logger.info("Answer deleted successfully with Answer ID: {} for Question ID: {}", answerId, questionId);
-
             return ResponseEntity.ok(new ResponseObject("Answer deleted successfully", HttpStatus.OK, null));
         } catch (DataNotFoundException e) {
-            logger.error("Data not found while deleting answer: Answer ID: {}, Question ID: {}", answerId, questionId, e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject("Answer or Question not found", HttpStatus.NOT_FOUND, null));
         } catch (Exception e) {
-            logger.error("Unexpected error while deleting answer", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error deleting answer: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
-    }
-
-    // Exception handling
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseObject> handleException(Exception ex) {
-        logger.error("Internal server error", ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ResponseObject("Internal server error: " + ex.getMessage(),
-                        HttpStatus.INTERNAL_SERVER_ERROR, null));
     }
 }

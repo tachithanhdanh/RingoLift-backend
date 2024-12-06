@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class MessageResponse extends BaseResponse {
+    @JsonProperty("id")
     private Long id; // Sửa Integer thành Long
 
     @JsonProperty("sender_id")

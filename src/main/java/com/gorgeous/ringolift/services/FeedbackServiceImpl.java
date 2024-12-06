@@ -9,22 +9,20 @@ import com.gorgeous.ringolift.repositories.LessonRepository;
 import com.gorgeous.ringolift.repositories.UserRepository;
 import com.gorgeous.ringolift.requests.FeedbackRequest;
 import com.gorgeous.ringolift.responses.FeedbackResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
-
-    @Autowired
     private FeedbackRepository feedbackRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private LessonRepository lessonRepository;
 
     @Override

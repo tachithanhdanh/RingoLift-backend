@@ -11,25 +11,22 @@ import com.gorgeous.ringolift.repositories.QuestionRepository;
 import com.gorgeous.ringolift.repositories.UserRepository;
 import com.gorgeous.ringolift.requests.MistakeRequest;
 import com.gorgeous.ringolift.responses.MistakeResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class MistakeServiceImpl implements MistakeService {
-
-    @Autowired
     private MistakeRepository mistakeRepository;
 
-    @Autowired
     private LessonRepository lessonRepository;
 
-    @Autowired
     private QuestionRepository questionRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override

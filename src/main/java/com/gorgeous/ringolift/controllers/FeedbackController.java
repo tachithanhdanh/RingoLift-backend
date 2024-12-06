@@ -19,9 +19,6 @@ import java.util.List;
 @RequestMapping("${api.prefix}/feedbacks")
 @RequiredArgsConstructor
 public class FeedbackController {
-
-    private static final Logger logger = LoggerFactory.getLogger(FeedbackController.class);
-
     private final FeedbackService feedbackService;
 
     /**
@@ -32,11 +29,9 @@ public class FeedbackController {
     public ResponseEntity<ResponseObject> createFeedback(@Validated @RequestBody FeedbackRequest request) {
         try {
             FeedbackResponse feedbackResponse = feedbackService.createFeedback(request);
-            logger.info("Feedback created successfully with ID: {}", feedbackResponse.getId());
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseObject("Feedback created successfully", HttpStatus.CREATED, feedbackResponse));
         } catch (Exception e) {
-            logger.error("Error creating feedback: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error creating feedback", HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
@@ -55,7 +50,6 @@ public class FeedbackController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject("Feedback not found", HttpStatus.NOT_FOUND, null));
         } catch (Exception e) {
-            logger.error("Error retrieving feedback: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error retrieving feedback", HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
@@ -77,7 +71,6 @@ public class FeedbackController {
             }
             return ResponseEntity.ok(new ResponseObject("Feedbacks retrieved successfully", HttpStatus.OK, feedbackResponses));
         } catch (Exception e) {
-            logger.error("Error retrieving feedbacks by user and lesson: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error retrieving feedbacks", HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
@@ -98,7 +91,6 @@ public class FeedbackController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject("Feedback not found", HttpStatus.NOT_FOUND, null));
         } catch (Exception e) {
-            logger.error("Error updating feedback: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error updating feedback", HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
@@ -113,20 +105,16 @@ public class FeedbackController {
             @PathVariable Long feedbackId,
             @PathVariable Long userId,
             @PathVariable Long lessonId) {
-        logger.info("Deleting feedback with Feedback ID: {} for User ID: {} and Lesson ID: {}", feedbackId, userId, lessonId);
 
         try {
             feedbackService.deleteFeedback(feedbackId, userId, lessonId);
-            logger.info("Feedback deleted successfully with Feedback ID: {} for User ID: {} and Lesson ID: {}", feedbackId, userId, lessonId);
 
             return ResponseEntity.ok(new ResponseObject("Feedback deleted successfully", HttpStatus.OK, null));
 
         } catch (DataNotFoundException e) {
-            logger.error("Data not found while deleting feedback: Feedback ID: {}, User ID: {}, Lesson ID: {}", feedbackId, userId, lessonId, e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseObject("Feedback not found", HttpStatus.NOT_FOUND, null));
         } catch (Exception e) {
-            logger.error("Unexpected error while deleting feedback", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error deleting feedback: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
