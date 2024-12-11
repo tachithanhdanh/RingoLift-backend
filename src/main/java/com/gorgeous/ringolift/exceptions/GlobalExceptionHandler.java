@@ -1,30 +1,25 @@
 package com.gorgeous.ringolift.exceptions;
 
 import com.gorgeous.ringolift.responses.ResponseObject;
-import jakarta.validation.ValidationException;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-// This class is used to handle exceptions globally
-// This class is annotated with @RestControllerAdvice
-// Using aspect oriented programming, this class will handle exceptions globally
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ResponseObject> handleGeneralException(Exception exception) {
-        String exceptionType = exception.getClass().getName(); // Fully qualified exception class name
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResponseObject.builder()
-                        .message(exceptionType)
+                        .message(exception.getClass().getName())
                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .data(exception.getMessage())
                         .build());
@@ -32,51 +27,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ResponseObject> handleDataNotFoundException(
-            DataNotFoundException exception) {
+    public ResponseEntity<ResponseObject> handleDataNotFoundException(DataNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ResponseObject.builder()
                         .message(exception.getMessage())
                         .status(HttpStatus.NOT_FOUND)
                         .data(null)
-                        .build());
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseObject> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException exception) {
-        BindingResult result = exception.getBindingResult();
-        // Get all field error messages
-        Map<String, String> errors = new HashMap<>();
-        String message = "Data validation error";
-
-        // Regular Expression
-        String regex = "([a-z])([A-Z]+)";
-
-        // Replacement string
-        String replacement = "$1_$2";
-
-        result.getFieldErrors()
-                .forEach(fieldError -> errors.put(
-                        fieldError.getField().replaceAll(regex, replacement).toLowerCase(),
-                        fieldError.getDefaultMessage()));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ResponseObject.builder()
-                        .message(message)
-                        .status(HttpStatus.BAD_REQUEST)
-                        .data(errors)
-                        .build());
-    }
-
-    @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseObject> handleValidationException(ValidationException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ResponseObject.builder()
-                        .message("Validation error")
-                        .status(HttpStatus.BAD_REQUEST)
-                        .data(exception.getMessage())
                         .build());
     }
 
@@ -88,6 +44,19 @@ public class GlobalExceptionHandler {
                         .message(exception.getMessage())
                         .status(HttpStatus.CONFLICT)
                         .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        Map<String, String> errors = new HashMap<>();
+        exception.getBindingResult().getFieldErrors().forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message("Validation error")
+                        .status(HttpStatus.BAD_REQUEST)
+                        .data(errors)
                         .build());
     }
 }
