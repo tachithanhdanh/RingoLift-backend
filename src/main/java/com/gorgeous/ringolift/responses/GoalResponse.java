@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.Goal;
 import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GoalResponse {
+public class GoalResponse extends BaseResponse {
 
     @JsonProperty("id")
     private Long id;
@@ -23,11 +24,14 @@ public class GoalResponse {
     private Integer wordCount;
 
     public static GoalResponse fromGoal(Goal goal) {
-        return GoalResponse.builder()
+        GoalResponse goalResponse = GoalResponse.builder()
                 .id(goal.getId())
                 .timeSpent(goal.getTimeSpent())
                 .lessonCount(goal.getLessonCount())
                 .wordCount(goal.getWordCount())
                 .build();
+        goalResponse.setCreatedAt(goal.getCreatedAt());
+        goalResponse.setUpdatedAt(goal.getUpdatedAt());
+        return goalResponse;
     }
 }

@@ -2,7 +2,6 @@ package com.gorgeous.ringolift.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "goals")

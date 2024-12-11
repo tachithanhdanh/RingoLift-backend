@@ -53,10 +53,12 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
-    public void deleteChapter(Long id) {
+    public void deleteChapter(Long id) throws DataNotFoundException {
         // In the meantime, we will just delete the chapter
         // When we have added other table that reference to this chapter, we will need to delete those references first
         // Or we can implement soft delete
+        Chapter chapter = chapterRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Cannot find chapter with id " + id));
         chapterRepository.deleteById(id);
     }
 }
