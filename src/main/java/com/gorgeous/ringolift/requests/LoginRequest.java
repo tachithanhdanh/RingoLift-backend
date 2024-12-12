@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminLoginRequest {
+public class LoginRequest {
 
     @NotBlank(message = "Username is required")
     private String username;
