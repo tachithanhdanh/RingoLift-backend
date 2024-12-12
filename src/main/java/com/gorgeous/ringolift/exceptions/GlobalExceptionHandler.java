@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
-    @ExceptionHandler({ValidationException.class, InvalidParamException.class})
+    @ExceptionHandler({ ValidationException.class, InvalidParamException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseObject> handleValidationException(ValidationException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
