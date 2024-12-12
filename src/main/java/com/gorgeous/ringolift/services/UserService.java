@@ -10,8 +10,10 @@ import com.gorgeous.ringolift.responses.LessonProgressResponse;
 import com.gorgeous.ringolift.responses.UserResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
+    Optional<UserResponse> getUserByUsername(String username);
     UserResponse createUser(UserRequest userRequest);
     UserResponse getUserById(Long id) throws DataNotFoundException;
     List<UserResponse> getAllUsers();
