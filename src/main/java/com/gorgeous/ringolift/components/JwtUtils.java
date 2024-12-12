@@ -13,8 +13,8 @@ import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import java.util.function.Function;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -136,5 +136,9 @@ public class JwtUtils {
         // Return the result of these checks (true if the token is valid, false otherwise)
         String username = extractUsername(token);  // Extract the username from the token
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));  // Validate if username matches and token is not expired
+    }
+
+    public long getExpirationTime() {
+        return expiration;
     }
 }
