@@ -24,6 +24,8 @@ import com.gorgeous.ringolift.responses.LessonProgressResponse;
 import com.gorgeous.ringolift.responses.UserResponse;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,12 @@ public class UserServiceImpl implements UserService {
     private final ChapterRepository chapterRepository;
     private final LessonProgressRepository lessonProgressRepository;
     private final ChapterProgressRepository chapterProgressRepository;
+
+    @Override
+    public Optional<UserResponse> getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(UserResponse::fromUser);
+    }
 
     @Override
     public UserResponse createUser(UserRequest userRequest) {
