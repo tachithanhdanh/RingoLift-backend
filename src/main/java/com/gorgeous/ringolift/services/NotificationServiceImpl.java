@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class NotificationServiceImpl implements NotificationService {
-    private NotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private NotificationTypeRepository notificationTypeRepository;
+    private final NotificationTypeRepository notificationTypeRepository;
 
     @Override
     public NotificationResponse createNotification(NotificationRequest request) throws DataNotFoundException {
@@ -107,7 +107,7 @@ public class NotificationServiceImpl implements NotificationService {
         return mapToResponse(updatedNotification);
     }
 
-    private NotificationResponse mapToResponse(Notification notification) {
+    private final NotificationResponse mapToResponse(Notification notification) {
         return NotificationResponse.fromNotification(notification);
     }
 }
