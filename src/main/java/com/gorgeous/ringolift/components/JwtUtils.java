@@ -141,4 +141,8 @@ public class JwtUtils {
     public long getExpirationTime() {
         return expiration;
     }
+
+    public Date getExpirationDate(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
 }

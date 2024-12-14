@@ -1,6 +1,7 @@
 package com.gorgeous.ringolift.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,10 @@ public class ValidateTokenResponse {
 
     @JsonProperty("message")
     private String message;
+
+    @JsonProperty("username")
+    private String username;
+
+    @JsonProperty("expiration_date")
+    private Date expirationDate;
 }

@@ -27,8 +27,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -156,13 +159,66 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public ValidateTokenResponse validateToken(ValidateTokenRequest request) {
-        return null;
+    public ValidateTokenResponse validateToken(ValidateTokenRequest request)
+            throws DataNotFoundException {
+        User existingUser = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        String token = request.getToken();
+
+        // Kiểm tra tính hợp lệ của token
+        boolean isValid = jwtUtils.validateToken(token, existingUser);  // null có thể là username nếu bạn cần kiểm tra đối chiếu
+        ValidateTokenResponse response = new ValidateTokenResponse();
+
+        if (isValid) {
+            // Token hợp lệ, trích xuất thông tin từ token
+            String username = jwtUtils.extractUsername(token);
+            Date expirationDate = jwtUtils.getExpirationDate(token);
+
+            response.setUsername(username);
+            response.setExpirationDate(expirationDate);
+            response.setValid(true);
+            response.setMessage("Token is valid");
+        } else {
+            // Token không hợp lệ
+            response.setValid(false);
+            response.setMessage("Token is invalid or expired");
+        }
+
+        return response;
     }
 
 
+
     @Override
-    public LogoutResponse logout(LogoutRequest request) {
-        return null;
+    public LogoutResponse logout(LogoutRequest request)
+            throws DataNotFoundException, PermissionDenyException, InvalidParamException {
+        // Remove access token from the user
+        // Get the current user store in the security context
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String token = request.getToken();
+
+        if (authentication == null) {
+            throw new PermissionDenyException("You are not logged in");
+        }
+
+        if (!request.getUsername().equals(authentication.getName())) {
+            throw new PermissionDenyException("You are not allowed to log out this user");
+        }
+
+        String username = authentication.getName();
+
+        // Get the user from the database
+        User existingUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        if (jwtUtils.validateToken(token, existingUser)) {
+            existingUser.setAccessToken(null);
+            userRepository.save(existingUser);
+        } else {
+            throw new InvalidParamException("Invalid token");
+        }
+        return new LogoutResponse("Logout successfully");
     }
 }

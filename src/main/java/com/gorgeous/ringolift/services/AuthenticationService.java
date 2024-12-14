@@ -23,7 +23,8 @@ public interface AuthenticationService {
     ChangePasswordResponse changePassword(ChangePasswordRequest changePasswordRequest)
             throws DataNotFoundException, InvalidParamException;
 
-    ValidateTokenResponse validateToken(ValidateTokenRequest request);
+    ValidateTokenResponse validateToken(ValidateTokenRequest request) throws DataNotFoundException;
 
-    LogoutResponse logout(LogoutRequest request);
+    LogoutResponse logout(LogoutRequest request)
+            throws DataNotFoundException, PermissionDenyException, InvalidParamException;
 }
