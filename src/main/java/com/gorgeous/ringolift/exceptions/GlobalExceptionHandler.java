@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ ValidationException.class, InvalidParamException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseObject> handleValidationException(ValidationException exception) {
+    public ResponseEntity<ResponseObject> handleValidationException(Exception exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseObject.builder()
                         .message("Validation error")
