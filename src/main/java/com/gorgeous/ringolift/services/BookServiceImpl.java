@@ -6,11 +6,13 @@ import com.gorgeous.ringolift.models.BookGenre;
 import com.gorgeous.ringolift.repositories.BookGenreRepository;
 import com.gorgeous.ringolift.repositories.BookRepository;
 import com.gorgeous.ringolift.requests.BookRequest;
+import com.gorgeous.ringolift.responses.BookContentResponse;
 import com.gorgeous.ringolift.responses.BookResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -19,6 +21,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookGenreRepository bookGenreRepository;
+    private final FileReaderService fileReaderService;
 
     @Override
     public BookResponse createBook(BookRequest bookRequest) throws DataNotFoundException {
@@ -78,5 +81,15 @@ public class BookServiceImpl implements BookService {
             throw new DataNotFoundException("Book not found");
         }
         bookRepository.deleteById(bookId);
+    }
+
+    @Override
+    public BookContentResponse readBookContent(String contentUrl) {
+        try {
+            String content = fileReaderService.readFile(contentUrl);
+            return BookContentResponse.builder().content(content).build();
+        } catch (IOException e) {
+            throw new RuntimeException("Error reading " + contentUrl, e);
+        }
     }
 }
