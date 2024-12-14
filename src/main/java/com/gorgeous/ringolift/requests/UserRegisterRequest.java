@@ -44,5 +44,6 @@ public class UserRegisterRequest {
     private Boolean isPublic;
 
     @JsonProperty("role")
+    @NotBlank(message = "Role is required")
     private String role;
 }
