@@ -25,7 +25,6 @@ import com.gorgeous.ringolift.responses.UserResponse;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -150,9 +149,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ChapterProgressResponse getChapterProgress(Long userId, Long chapterId)
             throws DataNotFoundException {
-        User existingUser = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + userId));
-        Chapter existingChapter = chapterRepository.findById(chapterId).orElseThrow(
+        chapterRepository.findById(chapterId).orElseThrow(
                 () -> new DataNotFoundException("Cannot find chapter with id " + chapterId));
         return ChapterProgressResponse.fromChapterProgress(
                 chapterProgressRepository.findByUserIdAndChapterId(userId, chapterId).orElseThrow(
@@ -170,9 +169,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ChapterProgressResponse updateChapterProgress(Long userId, Long chapterId,
             ChapterProgressRequest chapterProgressRequest) throws DataNotFoundException {
-        User existingUser = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + userId));
-        Chapter existingChapter = chapterRepository.findById(chapterId).orElseThrow(
+        chapterRepository.findById(chapterId).orElseThrow(
                 () -> new DataNotFoundException("Cannot find chapter with id " + chapterId));
         ChapterProgress existingChapterProgress = chapterProgressRepository.findByUserIdAndChapterId(
                 userId, chapterId).orElseThrow(() -> new DataNotFoundException(
@@ -224,9 +223,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public LessonProgressResponse getLessonProgress(Long userId, Long lessonId)
             throws DataNotFoundException {
-        User existingUser = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + userId));
-        Lesson existingLesson = lessonRepository.findById(lessonId).orElseThrow(
+        lessonRepository.findById(lessonId).orElseThrow(
                 () -> new DataNotFoundException("Cannot find lesson with id " + lessonId));
         return LessonProgressResponse.fromLessonProgress(
                 lessonProgressRepository.findByUserIdAndLessonId(userId, lessonId).orElseThrow(
