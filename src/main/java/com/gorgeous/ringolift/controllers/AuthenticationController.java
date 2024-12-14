@@ -56,7 +56,7 @@ public class AuthenticationController {
     }
 
     // Xác thực tính hợp lệ của token
-    @GetMapping("/validate-token")
+    @PostMapping("/validate-token")
     public ResponseEntity<ResponseObject> validateToken(@Valid @RequestBody ValidateTokenRequest validateTokenRequest)
             throws DataNotFoundException {
         var validateTokenResponse = authenticationService.validateToken(validateTokenRequest);
