@@ -80,6 +80,17 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(PermissionDenyException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handlePermissionDenyException(PermissionDenyException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .data(null)
+                        .build());
+    }
+
     @ExceptionHandler(DuplicateDataException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ResponseObject> handleDuplicateDataException(DuplicateDataException exception) {
