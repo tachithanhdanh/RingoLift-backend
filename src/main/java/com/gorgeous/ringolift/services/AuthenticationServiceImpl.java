@@ -1,10 +1,9 @@
 package com.gorgeous.ringolift.services;
 
-import com.gorgeous.ringolift.components.JwtUtils;
+import com.gorgeous.ringolift.jwt.JwtUtils;
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.exceptions.InvalidParamException;
 import com.gorgeous.ringolift.exceptions.PermissionDenyException;
-import com.gorgeous.ringolift.models.Goal;
 import com.gorgeous.ringolift.models.Role;
 import com.gorgeous.ringolift.models.User;
 import com.gorgeous.ringolift.models.UserGender;
@@ -16,10 +15,8 @@ import com.gorgeous.ringolift.requests.ChangePasswordRequest;
 import com.gorgeous.ringolift.requests.LoginRequest;
 import com.gorgeous.ringolift.requests.LogoutRequest;
 import com.gorgeous.ringolift.requests.UserRegisterRequest;
-import com.gorgeous.ringolift.requests.UserRequest;
 import com.gorgeous.ringolift.requests.ValidateTokenRequest;
 import com.gorgeous.ringolift.responses.ChangePasswordResponse;
-import com.gorgeous.ringolift.responses.LoginResponse;
 import com.gorgeous.ringolift.responses.LogoutResponse;
 import com.gorgeous.ringolift.responses.UserResponse;
 import com.gorgeous.ringolift.responses.ValidateTokenResponse;

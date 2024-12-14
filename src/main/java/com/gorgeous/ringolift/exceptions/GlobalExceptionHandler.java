@@ -101,4 +101,27 @@ public class GlobalExceptionHandler {
                         .data(null)
                         .build());
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseObject> handleUnauthorizedException(UnauthorizedException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseObject> handleInvalidTokenException(InvalidTokenException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
 }

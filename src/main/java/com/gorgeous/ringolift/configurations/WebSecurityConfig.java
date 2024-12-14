@@ -2,7 +2,7 @@ package com.gorgeous.ringolift.configurations;
 
 import static org.springframework.http.HttpMethod.POST;
 
-import com.gorgeous.ringolift.components.JwtAuthenticationEntryPoint;
+import com.gorgeous.ringolift.jwt.JwtAuthenticationEntryPoint;
 import com.gorgeous.ringolift.filters.JwtTokenFilter;
 import com.gorgeous.ringolift.models.Role;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.gorgeous.ringolift.components;
+package com.gorgeous.ringolift.jwt;
 
 import com.gorgeous.ringolift.exceptions.InvalidParamException;
 import com.gorgeous.ringolift.models.User;

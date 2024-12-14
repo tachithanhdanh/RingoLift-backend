@@ -1,6 +1,8 @@
 package com.gorgeous.ringolift.filters;
 
-import com.gorgeous.ringolift.components.JwtUtils;
+import com.gorgeous.ringolift.exceptions.InvalidTokenException;
+import com.gorgeous.ringolift.exceptions.UnauthorizedException;
+import com.gorgeous.ringolift.jwt.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,12 +20,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     // userDetailsService is used to load the user details from the database
     // it is injected via the constructor, and it is a bean defined in the SecurityConfig class
@@ -54,8 +59,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             final String authHeader = request.getHeader("Authorization");
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 SecurityContextHolder.clearContext();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing or invalid token");
-                return;
+                throw new UnauthorizedException("Missing or invalid token");
             }
             String token = authHeader.substring(
                     "Bearer ".length()); // remove "Bearer " from the token
@@ -76,31 +80,31 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                             new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 } else {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
-                    return;
+                    throw new UnauthorizedException("Invalid token");
                 }
             }
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             SecurityContextHolder.clearContext();
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            handlerExceptionResolver.resolveException(request, response, null, exception);
         }
 
     }
 
     private boolean isBypassToken(@NonNull HttpServletRequest request) {
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
-                Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
-                Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auth/register", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auth/login", apiPrefix), "POST"),
                 Pair.of(String.format("%s/products", apiPrefix), "GET"),
                 Pair.of(String.format("%s/categories", apiPrefix), "GET")
         );
-        for (Pair<String, String> bypassToken : bypassTokens) {
-            if (request.getRequestURI().equals(bypassToken.getFirst())
-                    && request.getMethod().equals(bypassToken.getSecond())) {
-                return true;
-            }
-        }
-        return false;
+        return true;
+//        for (Pair<String, String> bypassToken : bypassTokens) {
+//            if (request.getRequestURI().equals(bypassToken.getFirst())
+//                    && request.getMethod().equals(bypassToken.getSecond())) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 }
