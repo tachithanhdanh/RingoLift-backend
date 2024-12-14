@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequest {
+public class UserRegisterRequest {
 
     @JsonProperty("username")
     @NotBlank(message = "Username is required")
@@ -36,12 +36,6 @@ public class UserRequest {
     @JsonProperty("gender_id")
     private Long genderId;
 
-    @JsonProperty("picture")
-    private String picture;
-
-    @JsonProperty("goal_id")
-    private Long goalId;
-
     @JsonProperty("password")
     @NotBlank(message = "Password is required")
     private String password;
@@ -49,12 +43,7 @@ public class UserRequest {
     @JsonProperty("is_public")
     private Boolean isPublic;
 
-    @JsonProperty("google_id")
-    private String googleId;
-
-    @JsonProperty("access_token")
-    private String accessToken;
-
     @JsonProperty("role")
+    @NotBlank(message = "Role is required")
     private String role;
 }
