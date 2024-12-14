@@ -213,6 +213,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User existingUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
 
+        if (existingUser.getAccessToken() == null || existingUser.getAccessToken().isEmpty()) {
+            throw new InvalidParamException("User is not logged in");
+        }
+
+        if (!existingUser.getAccessToken().equals(token)) {
+            throw new InvalidParamException("Invalid token");
+        }
+
         if (jwtUtils.validateToken(token, existingUser)) {
             existingUser.setAccessToken(null);
             userRepository.save(existingUser);
