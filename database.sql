@@ -146,7 +146,7 @@ CREATE TABLE users
     goal_id       INT,
     password      VARCHAR(255),
     is_public     BOOLEAN,
-    google_id     INT,
+    google_id     VARCHAR(255),
     access_token  VARCHAR(255),
     created_at    DATETIME,
     updated_at    DATETIME,
