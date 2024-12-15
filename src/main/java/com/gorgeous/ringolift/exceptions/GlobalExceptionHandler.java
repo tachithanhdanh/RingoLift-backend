@@ -69,14 +69,25 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler({ ValidationException.class, InvalidParamException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ResponseObject> handleValidationException(ValidationException exception) {
+    public ResponseEntity<ResponseObject> handleValidationException(Exception exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseObject.builder()
                         .message("Validation error")
                         .status(HttpStatus.BAD_REQUEST)
                         .data(exception.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(PermissionDenyException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handlePermissionDenyException(PermissionDenyException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .data(null)
                         .build());
     }
 
@@ -90,4 +101,27 @@ public class GlobalExceptionHandler {
                         .data(null)
                         .build());
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseObject> handleUnauthorizedException(UnauthorizedException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseObject> handleInvalidTokenException(InvalidTokenException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
 }

@@ -2,6 +2,7 @@ package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.requests.BookRequest;
+import com.gorgeous.ringolift.responses.BookContentResponse;
 import com.gorgeous.ringolift.responses.BookResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
 import com.gorgeous.ringolift.services.BookService;
@@ -94,6 +95,22 @@ public class BookController {
                 ResponseObject.builder()
                         .message("Delete book successfully")
                         .status(HttpStatus.OK)
+                        .build()
+        );
+    }
+
+    // Read book content by content_url
+    // GET http://localhost:8088/api/v1/books/content/{content_url}
+    @GetMapping("/content/{content_url}")
+    public ResponseEntity<ResponseObject> getBookByContentUrl(
+            @Valid @PathVariable String content_url
+    ) throws DataNotFoundException {
+        BookContentResponse content = bookService.readBookContent(content_url);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ResponseObject.builder()
+                        .message("Read book content successfully")
+                        .status(HttpStatus.OK)
+                        .data(content)
                         .build()
         );
     }

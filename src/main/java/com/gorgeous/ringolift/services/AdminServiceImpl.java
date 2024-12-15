@@ -4,7 +4,7 @@ import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.exceptions.DuplicateDataException;
 import com.gorgeous.ringolift.models.Admin;
 import com.gorgeous.ringolift.repositories.AdminRepository;
-import com.gorgeous.ringolift.requests.AdminLoginRequest;
+import com.gorgeous.ringolift.requests.LoginRequest;
 import com.gorgeous.ringolift.requests.AdminRegisterRequest;
 import com.gorgeous.ringolift.responses.AdminResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminResponse loginAdmin(AdminLoginRequest adminLoginRequest) throws DataNotFoundException {
+    public AdminResponse loginAdmin(LoginRequest adminLoginRequest) throws DataNotFoundException {
         Admin admin = adminRepository.findByUsername(adminLoginRequest.getUsername())
                 .orElseThrow(() -> new DataNotFoundException("Admin not found with username " + adminLoginRequest.getUsername()));
 

@@ -49,6 +49,9 @@ public class UserResponse extends BaseResponse {
     @JsonProperty("access_token")
     private String accessToken;
 
+    @JsonProperty("role")
+    private String role;
+
     public static UserResponse fromUser(User user) {
         UserResponse userResponse = UserResponse.builder()
                 .id(user.getId())
@@ -63,6 +66,7 @@ public class UserResponse extends BaseResponse {
                 .isPublic(user.getIsPublic())
                 .googleId(user.getGoogleId())
                 .accessToken(user.getAccessToken())
+                .role(user.getRole().getName())
                 .build();
 
         userResponse.setCreatedAt(user.getCreatedAt());

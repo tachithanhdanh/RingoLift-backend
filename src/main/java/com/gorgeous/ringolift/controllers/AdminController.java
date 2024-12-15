@@ -2,7 +2,7 @@ package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.exceptions.DuplicateDataException;
-import com.gorgeous.ringolift.requests.AdminLoginRequest;
+import com.gorgeous.ringolift.requests.LoginRequest;
 import com.gorgeous.ringolift.requests.AdminRegisterRequest;
 import com.gorgeous.ringolift.responses.AdminResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
@@ -23,7 +23,7 @@ public class AdminController {
     private final AdminService adminService;
 
     // Đăng ký Admin
-    @PostMapping("/register")
+//    @PostMapping("/register")
     public ResponseEntity<ResponseObject> registerAdmin(
             @Valid @RequestBody AdminRegisterRequest adminRegisterRequest
     ) throws DuplicateDataException {
@@ -38,9 +38,9 @@ public class AdminController {
     }
 
     // Đăng nhập Admin
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public ResponseEntity<ResponseObject> loginAdmin(
-            @Valid @RequestBody AdminLoginRequest adminLoginRequest
+            @Valid @RequestBody LoginRequest adminLoginRequest
     ) throws DataNotFoundException {
         AdminResponse adminResponse = adminService.loginAdmin(adminLoginRequest);
         return ResponseEntity.ok(
@@ -53,7 +53,7 @@ public class AdminController {
     }
 
     // Lấy danh sách tất cả Admin
-    @GetMapping("")
+//    @GetMapping("")
     public ResponseEntity<ResponseObject> getAllAdmins() {
         List<AdminResponse> admins = adminService.getAllAdmins();
         return ResponseEntity.ok(
@@ -66,7 +66,7 @@ public class AdminController {
     }
 
     // Xóa Admin theo ID
-    @DeleteMapping("/{adminId}")
+//    @DeleteMapping("/{adminId}")
     public ResponseEntity<ResponseObject> deleteAdmin(@PathVariable Long adminId) throws DataNotFoundException {
         adminService.deleteAdmin(adminId);
         return ResponseEntity.ok(
