@@ -2,20 +2,8 @@ package com.gorgeous.ringolift.services;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.exceptions.DuplicateDataException;
-import com.gorgeous.ringolift.models.Chapter;
-import com.gorgeous.ringolift.models.ChapterProgress;
-import com.gorgeous.ringolift.models.Goal;
-import com.gorgeous.ringolift.models.Lesson;
-import com.gorgeous.ringolift.models.LessonProgress;
-import com.gorgeous.ringolift.models.User;
-import com.gorgeous.ringolift.models.UserGender;
-import com.gorgeous.ringolift.repositories.ChapterProgressRepository;
-import com.gorgeous.ringolift.repositories.ChapterRepository;
-import com.gorgeous.ringolift.repositories.GoalRepository;
-import com.gorgeous.ringolift.repositories.LessonProgressRepository;
-import com.gorgeous.ringolift.repositories.LessonRepository;
-import com.gorgeous.ringolift.repositories.UserGenderRepository;
-import com.gorgeous.ringolift.repositories.UserRepository;
+import com.gorgeous.ringolift.models.*;
+import com.gorgeous.ringolift.repositories.*;
 import com.gorgeous.ringolift.requests.ChapterProgressRequest;
 import com.gorgeous.ringolift.requests.LessonProgressRequest;
 import com.gorgeous.ringolift.requests.UserRequest;
@@ -39,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final ChapterRepository chapterRepository;
     private final LessonProgressRepository lessonProgressRepository;
     private final ChapterProgressRepository chapterProgressRepository;
+    private final RoleRepository roleRepository;
 
     @Override
     public Optional<UserResponse> getUserByUsername(String username) {
@@ -58,12 +47,17 @@ public class UserServiceImpl implements UserService {
             goal = goalRepository.findById(userRequest.getGoalId()).orElse(null);
         }
 
+        Role role = null;
+        if (userRequest.getRole() != null) {
+            role = roleRepository.findByName(userRequest.getRole()).orElse(null);
+        }
+
         User user = User.builder().username(userRequest.getUsername()).email(userRequest.getEmail())
                 .firstName(userRequest.getFirstName()).lastName(userRequest.getLastName())
                 .dateOfBirth(userRequest.getDateOfBirth()).gender(gender)
                 .picture(userRequest.getPicture()).goal(goal).password(userRequest.getPassword())
                 .isPublic(userRequest.getIsPublic()).googleId(userRequest.getGoogleId())
-                .accessToken(userRequest.getAccessToken()).build();
+                .accessToken(userRequest.getAccessToken()).role(role).build();
 
         return UserResponse.fromUser(userRepository.save(user));
     }
