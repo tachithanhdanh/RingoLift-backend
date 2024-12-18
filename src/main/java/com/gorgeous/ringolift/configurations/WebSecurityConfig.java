@@ -2,9 +2,9 @@ package com.gorgeous.ringolift.configurations;
 
 import static org.springframework.http.HttpMethod.POST;
 
-import com.gorgeous.ringolift.jwt.JwtAuthenticationEntryPoint;
 import com.gorgeous.ringolift.filters.JwtTokenFilter;
-import com.gorgeous.ringolift.models.Role;
+import com.gorgeous.ringolift.jwt.JwtAuthenticationEntryPoint;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,13 +26,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
+    @Value("${api.prefix}")
+    private String apiPrefix;
 
+    public final String[] PUBLIC_ENDPOINTS = (String[]) Arrays.stream(new String[]{
+                    "/auth/register", "/auth/login", "/auth/validate-token", "/auth/logout"
+            }).map(endpoint -> apiPrefix + endpoint)
+            .toArray();
     private final JwtTokenFilter jwtTokenFilter;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-    @Value("${api.prefix}")
-    private String apiPrefix;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,9 +49,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> {
                     requests
                             .requestMatchers(POST, // user and admin can get categories
-                                    String.format("%s/auth/logout", apiPrefix))
-                            .hasAnyRole(Role.USER, Role.ADMIN)
-                            .anyRequest().permitAll(); // allow all requests
+                                    PUBLIC_ENDPOINTS)
+                            .permitAll()
+                            .anyRequest().authenticated(); // allow all requests
                 });
         return http.build();
     }
