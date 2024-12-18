@@ -8,7 +8,9 @@ import com.gorgeous.ringolift.requests.UserRequest;
 import com.gorgeous.ringolift.responses.ChapterProgressResponse;
 import com.gorgeous.ringolift.responses.LessonProgressResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
+import com.gorgeous.ringolift.responses.UserGenderResponse;
 import com.gorgeous.ringolift.responses.UserResponse;
+import com.gorgeous.ringolift.services.UserGenderService;
 import com.gorgeous.ringolift.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+
+    private final UserGenderService userGenderService;
 
     // Create a new user
     @PostMapping("")
@@ -291,6 +295,34 @@ public class UserController {
                         .message("Delete lesson progress by user id successfully")
                         .status(HttpStatus.OK)
                         .data(null)
+                        .build()
+        );
+    }
+
+    // Get all user genders
+    // GET localhost:8088/api/v1/users/genders
+    @GetMapping("/genders")
+    public ResponseEntity<ResponseObject> getAllUserGenders() {
+        List<UserGenderResponse> userGenders = userGenderService.getAllUserGenders();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get all user gender successfully")
+                        .status(HttpStatus.OK)
+                        .data(userGenders)
+                        .build()
+        );
+    }
+
+    // Get user gender by id
+    // GET localhost:8088/api/v1/users/genders/{gender_id}
+    @GetMapping("/genders/{gender_id}")
+    public ResponseEntity<ResponseObject> getUserGenderById(@PathVariable("gender_id") Long id) throws DataNotFoundException {
+        UserGenderResponse userGenderResponse = userGenderService.getUserGenderById(id);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get user gender by id successfully")
+                        .status(HttpStatus.OK)
+                        .data(userGenderResponse)
                         .build()
         );
     }
