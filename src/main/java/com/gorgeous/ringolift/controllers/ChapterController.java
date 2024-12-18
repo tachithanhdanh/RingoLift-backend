@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class ChapterController {
     // Create a new chapter
     // POST http://localhost:8088/api/v1/chapters
     @PostMapping("")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseObject> createChapter(
             @Valid @RequestBody ChapterRequest chapterRequest
     ) {
@@ -72,6 +74,7 @@ public class ChapterController {
     // PUT http://localhost:8088/api/v1/chapters/1
     // admin job, will add @PreAuthorize("hasRole('ROLE_ADMIN')") later
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseObject> updateChapter(
             @Valid @PathVariable Long id,
             @Valid @RequestBody ChapterRequest chapterRequest
@@ -89,6 +92,7 @@ public class ChapterController {
     // DELETE http://localhost:8088/api/v1/chapters/1
     // admin job, will add @PreAuthorize("hasRole('ROLE_ADMIN')") later
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseObject> deleteChapter(@Valid @PathVariable Long id)
             throws DataNotFoundException {
         chapterService.deleteChapter(id);
