@@ -1,5 +1,6 @@
 package com.gorgeous.ringolift.filters;
 
+import com.gorgeous.ringolift.constants.ApiConstants;
 import com.gorgeous.ringolift.exceptions.UnauthorizedException;
 import com.gorgeous.ringolift.jwt.JwtUtils;
 import jakarta.servlet.FilterChain;
@@ -28,9 +29,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Value("${api.prefix}")
     private String apiPrefix;
 
-    public final List<String> PUBLIC_ENDPOINTS = Arrays.stream(new String[]{
-                    "/auth/register", "/auth/login", "/auth/validate-token", "/auth/logout"
-            }).map(endpoint -> apiPrefix + endpoint)
+    public final List<String> PUBLIC_ENDPOINTS = ApiConstants.PUBLIC_ENDPOINTS.stream()
+            .map(endpoint -> apiPrefix + endpoint)
             .toList();
 
     private final UserDetailsService userDetailsService;

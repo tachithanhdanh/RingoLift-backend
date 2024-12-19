@@ -170,13 +170,14 @@ INSERT INTO roles (id, name)
 VALUES (2, 'ADMIN'),
        (1, 'USER');
 
+-- password: 123456
 -- Insert 4 admin users into 'users' table
 INSERT INTO users (username, email, first_name, last_name, date_of_birth, gender_id, picture, goal_id, password, is_public, google_id, access_token, created_at, updated_at, role_id)
 VALUES
-    ('tachithanhdanh', 'tachithanhdanh@gmail.com', 'Chi Thanh Danh', 'Ta', '1990-05-01', 1, 'https://fakeurl.com/pic1.jpg', NULL, 'password1', TRUE, NULL, NULL, NOW(), NOW(), 2),
-    ('vandatcqh', 'ngodat1214@gmail.com', 'Van Dat', 'Ngo', '1992-08-12', 1, 'https://fakeurl.com/pic2.jpg', NULL, 'password2', TRUE, NULL, NULL, NOW(), NOW(), 2),
-    ('allforest01', 'allforest01@gmail.com', 'Tuan Kiet', 'Mai Van', '1985-10-25', 1, 'https://fakeurl.com/pic3.jpg', NULL, 'password3', TRUE, NULL, NULL, NOW(), NOW(), 2),
-    ('NguyenHung1207', 'nguyenhung.9a5.nbk@gmail.com', 'Hung', 'Nguyen', '1988-01-15', 1, 'https://fakeurl.com/pic4.jpg', NULL, 'password4', TRUE, NULL, NULL, NOW(), NOW(), 2);
+    ('tachithanhdanh', 'tachithanhdanh@gmail.com', 'Chi Thanh Danh', 'Ta', '1990-05-01', 1, 'https://fakeurl.com/pic1.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('vandatcqh', 'ngodat1214@gmail.com', 'Van Dat', 'Ngo', '1992-08-12', 1, 'https://fakeurl.com/pic2.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('allforest01', 'allforest01@gmail.com', 'Tuan Kiet', 'Mai Van', '1985-10-25', 1, 'https://fakeurl.com/pic3.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('NguyenHung1207', 'nguyenhung.9a5.nbk@gmail.com', 'Hung', 'Nguyen', '1988-01-15', 1, 'https://fakeurl.com/pic4.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2);
 
 
 -- 9. Tạo bảng 'goals'

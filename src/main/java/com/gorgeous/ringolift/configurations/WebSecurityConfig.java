@@ -2,6 +2,7 @@ package com.gorgeous.ringolift.configurations;
 
 import static org.springframework.http.HttpMethod.POST;
 
+import com.gorgeous.ringolift.constants.ApiConstants;
 import com.gorgeous.ringolift.filters.JwtTokenFilter;
 import com.gorgeous.ringolift.jwt.JwtAuthenticationEntryPoint;
 import java.util.Arrays;
@@ -31,10 +32,9 @@ public class WebSecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Value("${api.prefix}")
     private String apiPrefix;
-    public final String[] PUBLIC_ENDPOINTS = Arrays.stream(new String[]{
-                    "/auth/register", "/auth/login", "/auth/validate-token", "/auth/logout"
-            }).map(endpoint -> apiPrefix + endpoint)
-            .toArray(String[]::new); // Use a method reference to create a String array
+    public final String[] PUBLIC_ENDPOINTS = ApiConstants.PUBLIC_ENDPOINTS.stream()
+            .map(endpoint -> apiPrefix + endpoint)
+            .toArray(String[]::new);
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
