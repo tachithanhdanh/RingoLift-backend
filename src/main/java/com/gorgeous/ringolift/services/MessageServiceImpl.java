@@ -49,7 +49,7 @@ public class MessageServiceImpl implements MessageService {
                     .senderId(messageRequest.getSenderId())
                     .receiverId(messageRequest.getReceiverId())
                     .messageText(messageRequest.getMessageText())
-                    .isRead(false)
+                    .isRead(messageRequest.getIsRead())
                     .build();
 
             logger.debug("Saving message to database");

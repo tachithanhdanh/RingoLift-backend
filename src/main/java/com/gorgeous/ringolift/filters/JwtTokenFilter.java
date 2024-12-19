@@ -1,8 +1,9 @@
 package com.gorgeous.ringolift.filters;
 
-import com.gorgeous.ringolift.exceptions.InvalidTokenException;
+import com.gorgeous.ringolift.constants.ApiConstants;
 import com.gorgeous.ringolift.exceptions.UnauthorizedException;
 import com.gorgeous.ringolift.jwt.JwtUtils;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,9 +11,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpMethod;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +28,20 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
+    @Value("${api.prefix}")
+    private String apiPrefix;
+
+    public List<String> PUBLIC_ENDPOINTS;
+
+    // initialize the PUBLIC_ENDPOINTS
+    // after the bean is created
+    // therefore, the apiPrefix is already injected
+    @PostConstruct
+    private void init() {
+        PUBLIC_ENDPOINTS = ApiConstants.PUBLIC_ENDPOINTS.stream()
+                .map(endpoint -> apiPrefix + endpoint)
+                .toList();
+    }
 
     private final UserDetailsService userDetailsService;
 
@@ -33,8 +50,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     // userDetailsService is used to load the user details from the database
     // it is injected via the constructor, and it is a bean defined in the SecurityConfig class
     private final JwtUtils jwtUtils;
-    @Value("${api.prefix}")
-    private String apiPrefix;
 
     @Override
     protected void doFilterInternal(
@@ -92,19 +107,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private boolean isBypassToken(@NonNull HttpServletRequest request) {
-        final List<Pair<String, String>> bypassTokens = Arrays.asList(
-                Pair.of(String.format("%s/auth/register", apiPrefix), "POST"),
-                Pair.of(String.format("%s/auth/login", apiPrefix), "POST"),
-                Pair.of(String.format("%s/products", apiPrefix), "GET"),
-                Pair.of(String.format("%s/categories", apiPrefix), "GET")
-        );
-        return true;
-//        for (Pair<String, String> bypassToken : bypassTokens) {
-//            if (request.getRequestURI().equals(bypassToken.getFirst())
-//                    && request.getMethod().equals(bypassToken.getSecond())) {
-//                return true;
-//            }
-//        }
-//        return false;
+        final List<Pair<String, String>> bypassTokens = PUBLIC_ENDPOINTS.stream()
+                .flatMap(endpoint -> Stream.of(
+                        Pair.of(endpoint, HttpMethod.GET.name()),
+                        Pair.of(endpoint, HttpMethod.POST.name())
+                )).toList();
+        for (Pair<String, String> bypassToken : bypassTokens) {
+            if (request.getRequestURI().equals(bypassToken.getFirst())
+                    && request.getMethod().equals(bypassToken.getSecond())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -80,7 +80,7 @@ public class FeedbackController {
      * Update an existing feedback.
      * PUT /api/v1/feedbacks/update/{feedbackId}
      */
-    @PutMapping("/update/{feedbackId}")
+    @PutMapping("/{feedbackId}")
     public ResponseEntity<ResponseObject> updateFeedback(
             @PathVariable Long feedbackId, // Add feedbackId here
             @Validated @RequestBody FeedbackRequest request) {

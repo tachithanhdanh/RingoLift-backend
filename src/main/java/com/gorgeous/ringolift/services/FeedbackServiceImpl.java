@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
-    private FeedbackRepository feedbackRepository;
+    private final FeedbackRepository feedbackRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private LessonRepository lessonRepository;
+    private final LessonRepository lessonRepository;
 
     @Override
     public FeedbackResponse createFeedback(FeedbackRequest request) throws DataNotFoundException {
