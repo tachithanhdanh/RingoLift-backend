@@ -1,6 +1,7 @@
 package com.gorgeous.ringolift.exceptions;
 
 import com.gorgeous.ringolift.responses.ResponseObject;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ValidationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -119,6 +120,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ResponseObject.builder()
                         .message(exception.getMessage())
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ResponseObject> handleExpiredJwtException(ExpiredJwtException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseObject.builder()
+                        .message("Token expired")
                         .status(HttpStatus.UNAUTHORIZED)
                         .data(null)
                         .build());
