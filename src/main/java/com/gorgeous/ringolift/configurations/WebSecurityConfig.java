@@ -26,16 +26,15 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
+
+    private final JwtTokenFilter jwtTokenFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Value("${api.prefix}")
     private String apiPrefix;
-
-    public final String[] PUBLIC_ENDPOINTS = (String[]) Arrays.stream(new String[]{
+    public final String[] PUBLIC_ENDPOINTS = Arrays.stream(new String[]{
                     "/auth/register", "/auth/login", "/auth/validate-token", "/auth/logout"
             }).map(endpoint -> apiPrefix + endpoint)
-            .toArray();
-    private final JwtTokenFilter jwtTokenFilter;
-
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+            .toArray(String[]::new); // Use a method reference to create a String array
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
