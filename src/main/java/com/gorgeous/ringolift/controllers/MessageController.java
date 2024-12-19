@@ -25,10 +25,14 @@ public class MessageController {
      */
     @PostMapping("")
     public ResponseEntity<ResponseObject> createMessage(
-            @RequestHeader(value = "User-Id", required = true) Long senderId,
             @Valid @RequestBody MessageRequest request) {
         try {
             // Validate request
+            if (request.getSenderId() == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("SenderId cannot be null or empty", HttpStatus.BAD_REQUEST, null));
+            }
+
             if (request.getReceiverId() == null) {
                 return ResponseEntity.badRequest()
                         .body(new ResponseObject("ReceiverId cannot be null", HttpStatus.BAD_REQUEST, null));
@@ -39,8 +43,10 @@ public class MessageController {
                         .body(new ResponseObject("MessageText cannot be null or empty", HttpStatus.BAD_REQUEST, null));
             }
 
-            // Set the senderId in the request object
-            request.setSenderId(senderId);
+            if (request.getIsRead() == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ResponseObject("IsRead cannot be null or empty", HttpStatus.BAD_REQUEST, null));
+            }
 
             // Attempt to create message
             var response = messageService.createMessage(request);
