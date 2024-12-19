@@ -1,10 +1,12 @@
 package com.gorgeous.ringolift.configurations;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 import com.gorgeous.ringolift.constants.ApiConstants;
 import com.gorgeous.ringolift.filters.JwtTokenFilter;
 import com.gorgeous.ringolift.jwt.JwtAuthenticationEntryPoint;
+import jakarta.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,20 @@ public class WebSecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Value("${api.prefix}")
     private String apiPrefix;
-    public final String[] PUBLIC_ENDPOINTS = ApiConstants.PUBLIC_ENDPOINTS.stream()
-            .map(endpoint -> apiPrefix + endpoint)
-            .toArray(String[]::new);
+
+    // PUBLIC_ENDPOINTS must be initialized after apiPrefix is set, so it will be initialized in the @PostConstruct method
+    public String[] PUBLIC_ENDPOINTS;
+
+    /**
+     * This method is called after all dependencies have been injected by Spring.
+     * It initializes PUBLIC_ENDPOINTS using the apiPrefix value, which is guaranteed to be set by this point.
+     */
+    @PostConstruct
+    private void init() {
+        PUBLIC_ENDPOINTS = ApiConstants.PUBLIC_ENDPOINTS.stream()
+                .map(endpoint -> apiPrefix + endpoint)
+                .toArray(String[]::new);
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,7 +60,10 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> {
                     requests
-                            .requestMatchers(POST, // user and admin can get categories
+                            .requestMatchers(POST,// user and admin can get categories
+                                    PUBLIC_ENDPOINTS)
+                            .permitAll()
+                            .requestMatchers(GET,// user and admin can get categories
                                     PUBLIC_ENDPOINTS)
                             .permitAll()
                             .anyRequest().authenticated(); // allow all requests
