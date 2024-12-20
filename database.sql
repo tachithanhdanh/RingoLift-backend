@@ -18,6 +18,7 @@ INSERT INTO user_gender (gender_type, created_at, updated_at)
 VALUES ('MALE', NOW(), NOW()),
        ('FEMALE', NOW(), NOW()),
        ('OTHER', NOW(), NOW());
+
 -- 2. Tạo bảng 'book_genre'
 CREATE TABLE book_genre
 (
@@ -75,7 +76,6 @@ CREATE TABLE question_type
     created_at DATETIME,
     updated_at DATETIME
 );
-
 
 -- 4.1. Dữ liệu cho bảng 'question_type'
 INSERT INTO question_type (ques_type, created_at, updated_at)
@@ -156,13 +156,13 @@ CREATE TABLE users
 ALTER TABLE users
     ADD COLUMN role_id INT;
 
--- Create table roles
--- This table is used for storing user roles
+-- 9. Tạo bảng 'roles'
 CREATE TABLE roles
 (
     id   INT PRIMARY KEY,
     name VARCHAR(20) NOT NULL
 );
+
 ALTER TABLE users
     ADD FOREIGN KEY (role_id) REFERENCES roles (id);
 
@@ -170,8 +170,7 @@ INSERT INTO roles (id, name)
 VALUES (2, 'ADMIN'),
        (1, 'USER');
 
--- password: 123456
--- Insert 4 admin users into 'users' table
+-- Insert 4 admin users vào 'users' table
 INSERT INTO users (username, email, first_name, last_name, date_of_birth, gender_id, picture, goal_id, password, is_public, google_id, access_token, created_at, updated_at, role_id)
 VALUES
     ('tachithanhdanh', 'tachithanhdanh@gmail.com', 'Chi Thanh Danh', 'Ta', '1990-05-01', 1, 'https://fakeurl.com/pic1.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2),
@@ -179,8 +178,7 @@ VALUES
     ('allforest01', 'allforest01@gmail.com', 'Tuan Kiet', 'Mai Van', '1985-10-25', 1, 'https://fakeurl.com/pic3.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2),
     ('NguyenHung1207', 'nguyenhung.9a5.nbk@gmail.com', 'Hung', 'Nguyen', '1988-01-15', 1, 'https://fakeurl.com/pic4.jpg', NULL, '$2a$10$kGHpgELykH9P9d.H35WlsucyPSRN.CneN6TlgG5elJeuX8v6nycxq', TRUE, NULL, NULL, NOW(), NOW(), 2);
 
-
--- 9. Tạo bảng 'goals'
+-- 10. Tạo bảng 'goals'
 CREATE TABLE goals
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -191,7 +189,7 @@ CREATE TABLE goals
     updated_at   DATETIME
 );
 
--- 10. Tạo bảng 'books'
+-- 11. Tạo bảng 'books'
 CREATE TABLE books
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
@@ -210,7 +208,7 @@ CREATE TABLE books
     FOREIGN KEY (genre_id) REFERENCES book_genre (id)
 );
 
--- 11. Tạo bảng 'friends'
+-- 12. Tạo bảng 'friends'
 CREATE TABLE friends
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -224,7 +222,7 @@ CREATE TABLE friends
     FOREIGN KEY (status_id) REFERENCES friend_status (id)
 );
 
--- 12. Tạo bảng 'questions'
+-- 13. Tạo bảng 'questions'
 CREATE TABLE questions
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -237,7 +235,7 @@ CREATE TABLE questions
     FOREIGN KEY (type_id) REFERENCES question_type (id)
 );
 
--- 13. Tạo bảng 'answers'
+-- 14. Tạo bảng 'answers'
 CREATE TABLE answers
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -249,23 +247,46 @@ CREATE TABLE answers
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
--- 14. Tạo bảng 'words'
+-- 15. Tạo bảng 'topics'
+CREATE TABLE topics
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(255) NOT NULL UNIQUE,
+    created_at  DATETIME,
+    updated_at  DATETIME
+);
+
+-- 15.1. Dữ liệu cho bảng 'topics'
+INSERT INTO topics (name, created_at, updated_at)
+VALUES ('Animals', NOW(), NOW()),
+       ('Food', NOW(), NOW()),
+       ('Technology', NOW(), NOW()),
+       ('Nature', NOW(), NOW()),
+       ('Sports', NOW(), NOW()),
+       ('Health', NOW(), NOW()),
+       ('Education', NOW(), NOW()),
+       ('Travel', NOW(), NOW()),
+       ('Music', NOW(), NOW()),
+       ('Art', NOW(), NOW());
+
+-- 16. Tạo bảng 'words'
 CREATE TABLE words
 (
     id                INT AUTO_INCREMENT PRIMARY KEY,
     word              VARCHAR(255) NOT NULL,
     meaning           VARCHAR(255) NOT NULL,
-    topic             VARCHAR(255),
+    topic_id          INT,
     part_of_speech_id INT,
     pronunciation     VARCHAR(255),
     audio_url         VARCHAR(255),
     example_sentence  TEXT,
     created_at        DATETIME,
     updated_at        DATETIME,
-    FOREIGN KEY (part_of_speech_id) REFERENCES part_of_speech (id)
+    FOREIGN KEY (part_of_speech_id) REFERENCES part_of_speech (id),
+    FOREIGN KEY (topic_id) REFERENCES topics (id)
 );
 
--- 15. Tạo bảng 'word_progress'
+-- 17. Tạo bảng 'word_progress'
 CREATE TABLE word_progress
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -280,7 +301,7 @@ CREATE TABLE word_progress
     FOREIGN KEY (status_id) REFERENCES word_status (id)
 );
 
--- 16. Tạo bảng 'chapters'
+-- 18. Tạo bảng 'chapters'
 CREATE TABLE chapters
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -291,7 +312,7 @@ CREATE TABLE chapters
     updated_at  DATETIME
 );
 
--- 17. Tạo bảng 'chapter_progress'
+-- 19. Tạo bảng 'chapter_progress'
 CREATE TABLE chapter_progress
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -304,7 +325,7 @@ CREATE TABLE chapter_progress
     FOREIGN KEY (chapter_id) REFERENCES chapters (id)
 );
 
--- 18. Tạo bảng 'lessons'
+-- 20. Tạo bảng 'lessons'
 CREATE TABLE lessons
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -316,7 +337,7 @@ CREATE TABLE lessons
     FOREIGN KEY (chapter_id) REFERENCES chapters (id)
 );
 
--- 19. Tạo bảng 'lesson_progress'
+-- 21. Tạo bảng 'lesson_progress'
 CREATE TABLE lesson_progress
 (
     id              INT AUTO_INCREMENT PRIMARY KEY,
@@ -331,7 +352,7 @@ CREATE TABLE lesson_progress
     FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
--- 20. Tạo bảng 'lesson_questions'
+-- 22. Tạo bảng 'lesson_questions'
 CREATE TABLE lesson_questions
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -343,7 +364,7 @@ CREATE TABLE lesson_questions
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
--- 21. Tạo bảng 'mistakes'
+-- 23. Tạo bảng 'mistakes'
 CREATE TABLE mistakes
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -358,7 +379,7 @@ CREATE TABLE mistakes
     FOREIGN KEY (question_id) REFERENCES questions (id)
 );
 
--- 22. Tạo bảng 'daily_progress'
+-- 24. Tạo bảng 'daily_progress'
 CREATE TABLE daily_progress
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -371,7 +392,7 @@ CREATE TABLE daily_progress
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
--- 23. Tạo bảng 'feedback'
+-- 25. Tạo bảng 'feedback'
 CREATE TABLE feedback
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -385,7 +406,7 @@ CREATE TABLE feedback
     FOREIGN KEY (lesson_id) REFERENCES lessons (id)
 );
 
--- 24. Tạo bảng 'messages'
+-- 26. Tạo bảng 'messages'
 CREATE TABLE messages
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
@@ -399,7 +420,7 @@ CREATE TABLE messages
     FOREIGN KEY (receiver_id) REFERENCES users (id)
 );
 
--- 25. Tạo bảng 'notifications'
+-- 27. Tạo bảng 'notifications'
 CREATE TABLE notifications
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -414,7 +435,7 @@ CREATE TABLE notifications
     FOREIGN KEY (type_id) REFERENCES notification_type (id)
 );
 
--- 26. Tạo bảng 'admins'
+-- 28. Tạo bảng 'admins'
 CREATE TABLE admins
 (
     id         INT AUTO_INCREMENT PRIMARY KEY,
