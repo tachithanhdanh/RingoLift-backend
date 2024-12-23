@@ -20,8 +20,8 @@ public class WordResponse extends BaseResponse {
     @JsonProperty("meaning")
     private String meaning;
 
-    @JsonProperty("topic")
-    private String topic;
+    @JsonProperty("topic_id")
+    private Long topicId;
 
     @JsonProperty("part_of_speech_id")
     private Long partOfSpeechId;
@@ -40,11 +40,11 @@ public class WordResponse extends BaseResponse {
                 .id(word.getId())
                 .word(word.getWord())
                 .meaning(word.getMeaning())
-                .topic(word.getTopic())
-                .partOfSpeechId(word.getPartOfSpeech().getId())
                 .pronunciation(word.getPronunciation())
                 .audioUrl(word.getAudioUrl())
                 .exampleSentence(word.getExampleSentence())
+                .partOfSpeechId(word.getPartOfSpeech() == null ? null : word.getPartOfSpeech().getId())
+                .topicId(word.getTopic() == null ? null : word.getTopic().getId())
                 .build();
         wordResponse.setCreatedAt(word.getCreatedAt());
         wordResponse.setUpdatedAt(word.getUpdatedAt());

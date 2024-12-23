@@ -17,14 +17,11 @@ public class Word extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "word")
+    @Column(name = "word", nullable = false)
     private String word;
 
-    @Column(name = "meaning")
+    @Column(name = "meaning", nullable = false)
     private String meaning;
-
-    @Column(name = "topic")
-    private String topic;
 
     @Column(name = "pronunciation")
     private String pronunciation;
@@ -35,7 +32,11 @@ public class Word extends BaseEntity {
     @Column(name = "example_sentence")
     private String exampleSentence;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "part_of_speech_id", referencedColumnName = "id")
     private PartOfSpeech partOfSpeech;
+
+    @ManyToOne
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
+    private Topic topic;
 }
