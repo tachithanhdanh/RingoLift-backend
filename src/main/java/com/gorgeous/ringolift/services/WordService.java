@@ -7,9 +7,12 @@ import com.gorgeous.ringolift.responses.WordResponse;
 import java.util.List;
 
 public interface WordService {
-    public WordResponse createWord(WordRequest wordRequest) throws DataNotFoundException;
-    public WordResponse getWordById(Long wordId) throws DataNotFoundException;
-    public List<WordResponse> getAllWords();
-    public WordResponse updateWord(Long wordId, WordRequest wordRequest) throws DataNotFoundException;
-    public void deleteWord(Long wordId) throws DataNotFoundException;
+    WordResponse createWord(WordRequest wordRequest) throws DataNotFoundException;
+    WordResponse getWordById(Long wordId) throws DataNotFoundException;
+    List<WordResponse> getAllWords();
+    WordResponse updateWord(Long wordId, WordRequest wordRequest) throws DataNotFoundException;
+    void deleteWord(Long wordId) throws DataNotFoundException;
+
+    // Thêm phương thức lấy tất cả words theo topic
+    List<WordResponse> getWordsByTopicId(Long topicId) throws DataNotFoundException;
 }
