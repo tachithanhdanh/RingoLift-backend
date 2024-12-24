@@ -32,4 +32,12 @@ public class Mistake extends BaseEntity {
 
     @Column(name = "active")
     private Boolean active;
+
+    @Column(name = "your_answer")
+    private String yourAnswer; // Đảm bảo sử dụng kiểu String đúng
+
+    // Thêm phương thức getter cho yourAnswer
+    public String getYourAnswer() {
+        return yourAnswer;
+    }
 }

@@ -16,4 +16,6 @@ public interface MistakeService {
     MistakeResponse getMistakeById(Long userId, Long lessonId, Long questionId, Long id) throws DataNotFoundException;
 
     List<MistakeResponse> getMistakesByLessonAndUserId(Long userId, Long lessonId) throws DataNotFoundException;
+
+    List<MistakeResponse> getAllMistakes();
 }

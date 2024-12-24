@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class AnswerServiceImpl implements AnswerService {
-    private AnswerRepository answerRepository;
+    private final AnswerRepository answerRepository;
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
     @Override
     public AnswerResponse createAnswer(AnswerRequest request) throws DataNotFoundException {
