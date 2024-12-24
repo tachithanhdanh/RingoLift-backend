@@ -9,7 +9,6 @@ import com.gorgeous.ringolift.repositories.TopicRepository;
 import com.gorgeous.ringolift.repositories.WordRepository;
 import com.gorgeous.ringolift.requests.WordRequest;
 import com.gorgeous.ringolift.responses.WordResponse;
-import com.gorgeous.ringolift.services.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -104,5 +103,14 @@ public class WordServiceImpl implements WordService {
         Word word = wordRepository.findById(wordId)
                 .orElseThrow(() -> new DataNotFoundException("Word not found"));
         wordRepository.delete(word);
+    }
+
+    @Override
+    public List<WordResponse> getWordsByTopicId(Long topicId) throws DataNotFoundException {
+        // Kiểm tra topicId có tồn tại hay không
+        topicRepository.findById(topicId).orElseThrow(() -> new DataNotFoundException("Topic not found"));
+
+        List<Word> words = wordRepository.findByTopicId(topicId);
+        return words.stream().map(WordResponse::fromWord).toList();
     }
 }
