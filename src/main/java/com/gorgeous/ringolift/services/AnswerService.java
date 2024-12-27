@@ -18,7 +18,4 @@ public interface AnswerService {
 
     // Phương thức lấy câu trả lời theo ID của câu hỏi
     List<AnswerResponse> getAnswersByQuestionId(Long questionId);
-
-    // Phương thức lấy câu trả lời theo ID câu hỏi và trạng thái đúng/sai
-    List<AnswerResponse> getAnswersByQuestionIdAndStatus(Long questionId, boolean isCorrect);
 }

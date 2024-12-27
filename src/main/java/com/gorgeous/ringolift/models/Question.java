@@ -25,6 +25,9 @@ public class Question extends BaseEntity {
     @Column(name = "hint")
     private String hint;
 
+    @Column(name = "correct_answer", nullable = false) // Thêm cột đáp án đúng
+    private String correctAnswer;
+
     @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false)
     private QuestionType type;

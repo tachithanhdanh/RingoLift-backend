@@ -5,8 +5,6 @@ import com.gorgeous.ringolift.requests.AnswerRequest;
 import com.gorgeous.ringolift.responses.AnswerResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
 import com.gorgeous.ringolift.services.AnswerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -84,30 +82,6 @@ public class AnswerController {
             if (responses.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("No answers found for this question", HttpStatus.NOT_FOUND, null));
-            }
-
-            return ResponseEntity.ok(new ResponseObject("Answers fetched successfully", HttpStatus.OK, responses));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseObject("Error fetching answers: " + e.getMessage(),
-                            HttpStatus.INTERNAL_SERVER_ERROR, null));
-        }
-    }
-
-    /**
-     * Retrieve answers for a specific question filtered by correct/incorrect status.
-     * GET /api/v1/answers/{questionId}/{isCorrect}
-     */
-    @GetMapping("/{questionId}/{isCorrect}")
-    public ResponseEntity<ResponseObject> getAnswersByQuestionIdAndStatus(
-            @PathVariable Long questionId, @PathVariable boolean isCorrect) {
-
-        try {
-            var responses = answerService.getAnswersByQuestionIdAndStatus(questionId, isCorrect);
-            if (responses.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ResponseObject("No answers found for this question with the specified correctness",
-                                HttpStatus.NOT_FOUND, null));
             }
 
             return ResponseEntity.ok(new ResponseObject("Answers fetched successfully", HttpStatus.OK, responses));

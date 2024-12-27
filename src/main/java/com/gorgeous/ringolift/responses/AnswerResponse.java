@@ -16,9 +16,6 @@ public class AnswerResponse extends BaseResponse {
     @JsonProperty("content")
     private String content;
 
-    @JsonProperty("is_correct")
-    private Boolean isCorrect;
-
     @JsonProperty("question_id")
     private Long questionId;
 
@@ -26,7 +23,6 @@ public class AnswerResponse extends BaseResponse {
         AnswerResponse answerResponse = AnswerResponse.builder()
                 .id(answer.getId())
                 .content(answer.getContent())
-                .isCorrect(answer.getIsCorrect())
                 .questionId(answer.getQuestion().getId())
                 .build();
         // Gán các thuộc tính thời gian từ BaseResponse nếu cần

@@ -17,88 +17,72 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class AnswerServiceImpl implements AnswerService {
-    private AnswerRepository answerRepository;
-
-    private QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
 
     @Override
     public AnswerResponse createAnswer(AnswerRequest request) throws DataNotFoundException {
-        // Load Question from the database
+        // Load Question từ database
         Question question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new DataNotFoundException("Question not found with id: " + request.getQuestionId()));
 
-        // Create new Answer and set the fields
+        // Tạo Answer mới và set các trường
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setContent(request.getContent());
-        answer.setIsCorrect(request.getIsCorrect());
 
-        // Save the answer and return the response
+        // Lưu Answer và trả về response
         Answer savedAnswer = answerRepository.save(answer);
-
         return mapToResponse(savedAnswer);
     }
 
     @Override
     public AnswerResponse updateAnswer(Long answerId, Long questionId, AnswerRequest request) throws DataNotFoundException {
-        // Find the existing Answer by ID
+        // Tìm Answer hiện có theo ID
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new DataNotFoundException("Answer not found with id: " + answerId));
 
-        // Load the Question from the database based on the provided questionId
+        // Load Question từ database dựa trên questionId
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new DataNotFoundException("Question not found with id: " + questionId));
 
-        // Update the Answer fields
+        // Cập nhật các trường của Answer
         answer.setQuestion(question);
         answer.setContent(request.getContent());
-        answer.setIsCorrect(request.getIsCorrect());
 
-        // Save the updated Answer
+        // Lưu Answer đã cập nhật
         Answer updatedAnswer = answerRepository.save(answer);
-
         return mapToResponse(updatedAnswer);
     }
 
     @Override
     public void deleteAnswer(Long questionId, Long answerId) throws DataNotFoundException {
-        // Find the Question by ID
+        // Tìm Question theo ID
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new DataNotFoundException("Question not found with id: " + questionId));
 
-        // Find the Answer by ID and ensure it is related to the given Question
+        // Tìm Answer theo ID và đảm bảo nó liên quan đến Question đã cho
         Answer answer = answerRepository.findByIdAndQuestionId(answerId, questionId)
                 .orElseThrow(() -> new DataNotFoundException("Answer not found with id: " + answerId + " for Question ID: " + questionId));
 
-        // Delete the Answer
+        // Xóa Answer
         answerRepository.delete(answer);
     }
 
-
     @Override
     public List<AnswerResponse> getAnswersByQuestionId(Long questionId) {
-        // Get Answers by Question ID
+        // Lấy Answers theo Question ID
         List<Answer> answers = answerRepository.findByQuestionId(questionId);
 
-        // Map each Answer to AnswerResponse and return
+        // Map mỗi Answer sang AnswerResponse và trả về
         return answers.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<AnswerResponse> getAnswersByQuestionIdAndStatus(Long questionId, boolean isCorrect) {
-        // Get Answers by Question ID and Correctness Status
-        List<Answer> answers = answerRepository.findByQuestionIdAndIsCorrect(questionId, isCorrect);
-
-        // Map each Answer to AnswerResponse and return
-        return answers.stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
-    }
-
-    // Utility method to map Answer entity to AnswerResponse
+    // Utility method để map Answer entity sang AnswerResponse
     private AnswerResponse mapToResponse(Answer answer) {
         return AnswerResponse.fromAnswer(answer);
     }
 }
+
