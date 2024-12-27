@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class MistakeServiceImpl implements MistakeService {
-    private MistakeRepository mistakeRepository;
+    private final MistakeRepository mistakeRepository;
 
-    private LessonRepository lessonRepository;
+    private final LessonRepository lessonRepository;
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public MistakeResponse createMistake(MistakeRequest request) throws DataNotFoundException {

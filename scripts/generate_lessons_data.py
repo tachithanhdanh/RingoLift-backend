@@ -4,7 +4,7 @@ import random
 # URL and Authorization header
 url = "http://localhost:8088/api/v1/lessons"
 headers = {
-    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6ImFsbyIsInN1YiI6ImFsbyIsImV4cCI6MTczNDY2NTc5MH0.rg8p_RmqjAlnI4RYEdoPM6fmNsyTO6ZUyBLmEbQXCKhdRQbXuKK0zZNmceDlQYHx8huH76qP57f19Mf1BXNPQw",
+    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6InZhbmRhdGNxaCIsInN1YiI6InZhbmRhdGNxaCIsImV4cCI6MTczNTI2NDk1OH0.1GxZrdhqaaJBvWu6dXJXriL58s_Fs2MGUPtyPzlD_juqyWK8l5ndkoBb-KM1a_1hbdF0Dk2Lcms9gzXIKhnd0w",
     "Content-Type": "application/json",
 }
 

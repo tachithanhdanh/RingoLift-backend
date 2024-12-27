@@ -222,26 +222,26 @@ CREATE TABLE friends
     FOREIGN KEY (status_id) REFERENCES friend_status (id)
 );
 
--- 13. Tạo bảng 'questions'
+-- 13. Tạo bảng 'questions' với thêm cột 'correct_answer'
 CREATE TABLE questions
 (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    content    TEXT NOT NULL,
-    audio_url  VARCHAR(255),
-    hint       TEXT,
-    type_id    INT,
-    created_at DATETIME,
-    updated_at DATETIME,
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    content         TEXT NOT NULL,
+    audio_url       VARCHAR(255),
+    hint            TEXT,
+    type_id         INT,
+    correct_answer  VARCHAR(255) NOT NULL, -- Thêm cột đáp án đúng
+    created_at      DATETIME,
+    updated_at      DATETIME,
     FOREIGN KEY (type_id) REFERENCES question_type (id)
 );
 
--- 14. Tạo bảng 'answers'
+-- 14. Tạo bảng 'answers' mà không có cột 'is_correct'
 CREATE TABLE answers
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     content     VARCHAR(255) NOT NULL,
     question_id INT,
-    is_correct  BOOLEAN,
     created_at  DATETIME,
     updated_at  DATETIME,
     FOREIGN KEY (question_id) REFERENCES questions (id)
@@ -445,7 +445,20 @@ CREATE TABLE admins
     updated_at DATETIME
 );
 
--------------------------------------------------------------
+-- 29. Tạo bảng 'user_answers' để lưu câu trả lời của người dùng
+CREATE TABLE user_answers
+(
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    user_id      INT NOT NULL,
+    question_id  INT NOT NULL,
+    answer_text  VARCHAR(255) NOT NULL,
+    created_at   DATETIME,
+    updated_at   DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (question_id) REFERENCES questions (id)
+);
+
+
 -- Thêm dữ liệu cho bảng 'words'
 -- Mỗi topic 5 từ, part_of_speech_id chọn là 1 (NOUN) cho đơn giản
 -- Topic 1: Animals

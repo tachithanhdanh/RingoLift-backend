@@ -11,16 +11,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "answers")
-public class Answer extends BaseEntity {
+@Table(name = "user_answers")
+public class UserAnswer extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String content;
+    // Liên kết tới User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    // Liên kết tới Question
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
+
+    // Nội dung câu trả lời của người dùng
+    @Column(name = "answer_text", nullable = false, length = 1000)
+    private String answerText;
 }

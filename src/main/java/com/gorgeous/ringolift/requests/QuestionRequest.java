@@ -28,4 +28,8 @@ public class QuestionRequest {
     @JsonProperty("type_id")
     @NotNull(message = "Type id is required")
     private Long typeId;
+
+    @JsonProperty("correct_answer")
+    @NotBlank(message = "Correct answer is required")
+    private String correctAnswer; // Thêm trường đáp án đúng
 }
