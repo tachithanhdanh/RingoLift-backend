@@ -1,6 +1,7 @@
 package com.gorgeous.ringolift.services;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
+import com.gorgeous.ringolift.models.Question;
 import com.gorgeous.ringolift.responses.UserAnswerResponse;
 import com.gorgeous.ringolift.requests.UserAnswerRequest;
 
@@ -18,5 +19,7 @@ public interface UserAnswerService {
     List<UserAnswerResponse> getUserAnswersByUserId(Long userId) throws DataNotFoundException;
 
     List<UserAnswerResponse> getUserAnswersByQuestionId(Long questionId) throws DataNotFoundException;
+
+    Question getQuestionByUserAnswerId(Long userAnswerId) throws DataNotFoundException;
 }
 

@@ -1,6 +1,7 @@
 package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
+import com.gorgeous.ringolift.models.Question;
 import com.gorgeous.ringolift.responses.UserAnswerResponse;
 import com.gorgeous.ringolift.requests.UserAnswerRequest;
 import com.gorgeous.ringolift.responses.ResponseObject;
@@ -149,6 +150,44 @@ public class UserAnswerController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error deleting UserAnswer: " + e.getMessage(),
+                            HttpStatus.INTERNAL_SERVER_ERROR, null));
+        }
+    }
+    /**
+     * Check if a UserAnswer is correct.
+     * POST /api/v1/user-answers/{id}/check
+     */
+    @PostMapping("/{id}/check")
+    public ResponseEntity<ResponseObject> checkUserAnswer(
+            @PathVariable Long id) {
+
+        try {
+            // Lấy UserAnswer từ service
+            UserAnswerResponse userAnswerResponse = userAnswerService.getUserAnswerById(id);
+
+            if (userAnswerResponse == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("UserAnswer not found", HttpStatus.NOT_FOUND, null));
+            }
+
+            // Lấy câu hỏi liên quan từ UserAnswer
+            Question question = userAnswerService.getQuestionByUserAnswerId(id);
+
+            if (question == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("Related Question not found", HttpStatus.NOT_FOUND, null));
+            }
+
+            // Kiểm tra câu trả lời có khớp với correctAnswer không
+            boolean isCorrect = userAnswerResponse.getAnswerText().equalsIgnoreCase(question.getCorrectAnswer());
+
+            return ResponseEntity.ok(
+                    new ResponseObject("Check result fetched successfully",
+                            HttpStatus.OK,
+                            isCorrect));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("Error checking UserAnswer: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
     }
