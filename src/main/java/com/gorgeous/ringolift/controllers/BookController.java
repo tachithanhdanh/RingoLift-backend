@@ -38,7 +38,7 @@ public class BookController {
     }
 
     // Get all books
-    // GET http://localhost:8080/api/v1/books
+    // GET http://localhost:8088/api/v1/books
     @GetMapping("")
     public ResponseEntity<ResponseObject> getAllBooks() {
         List<BookResponse> bookResponses = bookService.getAllBooks();

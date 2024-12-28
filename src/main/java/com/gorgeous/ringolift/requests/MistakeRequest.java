@@ -25,4 +25,7 @@ public class MistakeRequest {
 
     @JsonProperty("is_active")
     private Boolean active;
+
+    @JsonProperty("your_answer") // Thêm trường này
+    private String yourAnswer; // Sửa kiểu dữ liệu thành String
 }

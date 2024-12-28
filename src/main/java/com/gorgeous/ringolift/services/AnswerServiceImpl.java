@@ -37,7 +37,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public AnswerResponse updateAnswer(Long answerId, Long questionId, AnswerRequest request) throws DataNotFoundException {
+    public AnswerResponse updateAnswer(Long answerId, Long questionId, AnswerRequest request)
+            throws DataNotFoundException {
         // Tìm Answer hiện có theo ID
         Answer answer = answerRepository.findById(answerId)
                 .orElseThrow(() -> new DataNotFoundException("Answer not found with id: " + answerId));
@@ -63,7 +64,8 @@ public class AnswerServiceImpl implements AnswerService {
 
         // Tìm Answer theo ID và đảm bảo nó liên quan đến Question đã cho
         Answer answer = answerRepository.findByIdAndQuestionId(answerId, questionId)
-                .orElseThrow(() -> new DataNotFoundException("Answer not found with id: " + answerId + " for Question ID: " + questionId));
+                .orElseThrow(() -> new DataNotFoundException(
+                        "Answer not found with id: " + answerId + " for Question ID: " + questionId));
 
         // Xóa Answer
         answerRepository.delete(answer);
@@ -85,4 +87,3 @@ public class AnswerServiceImpl implements AnswerService {
         return AnswerResponse.fromAnswer(answer);
     }
 }
-
