@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class GoalRequest {
+    @JsonProperty("user_id")
+    private Long userId;
+
     @JsonProperty("time_spent")
     @PositiveOrZero(message = "Time spent must not be negative")
     private Integer timeSpent;

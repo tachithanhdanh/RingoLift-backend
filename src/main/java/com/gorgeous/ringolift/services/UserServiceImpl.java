@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         User user = User.builder().username(userRequest.getUsername()).email(userRequest.getEmail())
                 .firstName(userRequest.getFirstName()).lastName(userRequest.getLastName())
                 .dateOfBirth(userRequest.getDateOfBirth()).gender(gender)
-                .picture(userRequest.getPicture()).goal(goal).password(userRequest.getPassword())
+                .picture(userRequest.getPicture()).goal(goal)
                 .isPublic(userRequest.getIsPublic()).googleId(userRequest.getGoogleId())
                 .accessToken(userRequest.getAccessToken()).role(role).build();
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
             existingUser.setGoal(goal);
         }
 
-        existingUser.setPassword(userRequest.getPassword());
+//        existingUser.setPassword(userRequest.getPassword());
         existingUser.setIsPublic(userRequest.getIsPublic());
         existingUser.setGoogleId(userRequest.getGoogleId());
         existingUser.setAccessToken(userRequest.getAccessToken());

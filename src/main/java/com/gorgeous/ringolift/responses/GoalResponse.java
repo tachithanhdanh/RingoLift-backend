@@ -14,6 +14,9 @@ public class GoalResponse extends BaseResponse {
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("user_id")
+    private Long userId;
+
     @JsonProperty("time_spent")
     private Integer timeSpent;
 
@@ -26,6 +29,7 @@ public class GoalResponse extends BaseResponse {
     public static GoalResponse fromGoal(Goal goal) {
         GoalResponse goalResponse = GoalResponse.builder()
                 .id(goal.getId())
+                .userId(goal.getUser().getId())
                 .timeSpent(goal.getTimeSpent())
                 .lessonCount(goal.getLessonCount())
                 .wordCount(goal.getWordCount())

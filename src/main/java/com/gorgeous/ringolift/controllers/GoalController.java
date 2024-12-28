@@ -25,7 +25,7 @@ public class GoalController {
     @PostMapping("")
     public ResponseEntity<ResponseObject> createGoal(
             @Valid @RequestBody GoalRequest goalRequest
-    ) {
+    ) throws DataNotFoundException {
         GoalResponse goalResponse = goalService.createGoal(goalRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ResponseObject.builder()
@@ -59,7 +59,22 @@ public class GoalController {
         GoalResponse goalResponse = goalService.getGoalById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ResponseObject.builder()
-                        .message("Get book by id successfully")
+                        .message("Get goal by id successfully")
+                        .status(HttpStatus.OK)
+                        .data(goalResponse)
+                        .build()
+        );
+    }
+
+    // Get goal by user id
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ResponseObject> getGoalByUserId(
+            @Valid @PathVariable Long userId
+    ) throws DataNotFoundException {
+        GoalResponse goalResponse = goalService.getGoalByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ResponseObject.builder()
+                        .message("Get goal by id successfully")
                         .status(HttpStatus.OK)
                         .data(goalResponse)
                         .build()

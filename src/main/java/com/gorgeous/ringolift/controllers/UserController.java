@@ -67,12 +67,13 @@ public class UserController {
     public ResponseEntity<ResponseObject> getUserById(@PathVariable Long id)
             throws DataNotFoundException {
         UserResponse userResponse = userService.getUserById(id);
-        return ResponseEntity.ok(
+        ResponseEntity<ResponseObject> ret = ResponseEntity.ok(
                 ResponseObject.builder()
                         .message("Get user by id successfully")
                         .status(HttpStatus.OK)
                         .data(userResponse)
                         .build());
+        return ret;
     }
 
     // User can only update their own profile
