@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("${api.prefix}/mistakes")
 public class MistakeController {
+
     private final MistakeService mistakeService;
 
     /**
@@ -27,10 +28,8 @@ public class MistakeController {
      */
     @PostMapping
     public ResponseEntity<ResponseObject> createMistake(@Valid @RequestBody MistakeRequest request) {
-
         try {
             MistakeResponse response = mistakeService.createMistake(request);
-
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseObject("Mistake created successfully", HttpStatus.CREATED, response));
         } catch (Exception e) {
@@ -46,10 +45,8 @@ public class MistakeController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateMistake(@PathVariable Long id, @Valid @RequestBody MistakeRequest request) {
-
         try {
             MistakeResponse response = mistakeService.updateMistake(id, request);
-
             return ResponseEntity.ok(new ResponseObject("Mistake updated successfully", HttpStatus.OK, response));
         } catch (DataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -71,14 +68,12 @@ public class MistakeController {
             @PathVariable Long lessonId,
             @PathVariable Long questionId,
             @PathVariable Long id) {
-
         try {
             MistakeResponse response = mistakeService.getMistakeById(userId, lessonId, questionId, id);
             if (response == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("Mistake not found", HttpStatus.NOT_FOUND, null));
             }
-
             return ResponseEntity.ok(new ResponseObject("Mistake fetched successfully", HttpStatus.OK, response));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -86,6 +81,7 @@ public class MistakeController {
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
     }
+
     /**
      * Retrieve all mistakes for a specific user in a specific lesson.
      * GET /api/v1/mistakes/{userId}/{lessonId}
@@ -94,15 +90,33 @@ public class MistakeController {
     public ResponseEntity<ResponseObject> getAllMistakesForLesson(
             @PathVariable Long userId,
             @PathVariable Long lessonId) {
-
         try {
             List<MistakeResponse> responses = mistakeService.getMistakesByLessonAndUserId(userId, lessonId);
             if (responses.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseObject("No mistakes found for this lesson and user", HttpStatus.NOT_FOUND, null));
             }
-
             return ResponseEntity.ok(new ResponseObject("Mistakes fetched successfully", HttpStatus.OK, responses));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("Error fetching mistakes: " + e.getMessage(),
+                            HttpStatus.INTERNAL_SERVER_ERROR, null));
+        }
+    }
+
+    /**
+     * Retrieve all mistakes for all users.
+     * GET /api/v1/mistakes
+     */
+    @GetMapping
+    public ResponseEntity<ResponseObject> getAllMistakes() {
+        try {
+            List<MistakeResponse> responses = mistakeService.getAllMistakes();
+            if (responses.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseObject("No mistakes found", HttpStatus.NOT_FOUND, null));
+            }
+            return ResponseEntity.ok(new ResponseObject("All mistakes fetched successfully", HttpStatus.OK, responses));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseObject("Error fetching mistakes: " + e.getMessage(),
@@ -120,11 +134,8 @@ public class MistakeController {
             @PathVariable Long lessonId,
             @PathVariable Long questionId,
             @PathVariable Long id) {
-
-
         try {
             mistakeService.deleteMistakeByParams(userId, lessonId, questionId, id);
-
             return ResponseEntity.ok(new ResponseObject("Mistake deleted successfully", HttpStatus.OK, null));
         } catch (DataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

@@ -76,11 +76,19 @@ public class WebSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowedOrigins = List.of("http://localhost:5173");
-        List<String> allowedMethods = List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
-        configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedMethods(allowedMethods);
+
+// Allow any origin
+        configuration.setAllowedOriginPatterns(List.of("*")); // Use setAllowedOrigins(List.of("*")) for older Spring versions
+
+// Allow specific HTTP methods
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+
+// Allow any headers
         configuration.setAllowedHeaders(List.of("*"));
+
+// Allow credentials if needed (optional, remove this if not required)
+        configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

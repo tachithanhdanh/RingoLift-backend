@@ -371,6 +371,7 @@ CREATE TABLE mistakes
     user_id     INT,
     lesson_id   INT,
     question_id INT,
+    your_answer TEXT,
     active      BOOLEAN,
     created_at  DATETIME,
     updated_at  DATETIME,

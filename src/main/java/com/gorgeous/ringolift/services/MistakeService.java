@@ -11,9 +11,11 @@ public interface MistakeService {
 
     MistakeResponse updateMistake(Long id, MistakeRequest request) throws DataNotFoundException;
 
-    void deleteMistakeByParams(Long userId, Long lessonId, Long questionId, Long id) throws DataNotFoundException; // Phương thức xóa theo tham số
+    void deleteMistakeByParams(Long userId, Long lessonId, Long questionId, Long id) throws DataNotFoundException;
 
     MistakeResponse getMistakeById(Long userId, Long lessonId, Long questionId, Long id) throws DataNotFoundException;
 
     List<MistakeResponse> getMistakesByLessonAndUserId(Long userId, Long lessonId) throws DataNotFoundException;
+
+    List<MistakeResponse> getAllMistakes();
 }
