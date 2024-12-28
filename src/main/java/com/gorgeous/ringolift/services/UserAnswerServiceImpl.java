@@ -119,4 +119,11 @@ public class UserAnswerServiceImpl implements UserAnswerService {
                 .map(UserAnswerResponse::fromUserAnswer)
                 .collect(Collectors.toList());
     }
+
+    public Question getQuestionByUserAnswerId(Long userAnswerId) throws DataNotFoundException {
+        UserAnswer userAnswer = userAnswerRepository.findById(userAnswerId)
+                .orElseThrow(() -> new DataNotFoundException("UserAnswer not found with id: " + userAnswerId));
+
+        return userAnswer.getQuestion();
+    }
 }
