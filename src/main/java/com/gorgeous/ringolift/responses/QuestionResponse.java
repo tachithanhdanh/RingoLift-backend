@@ -2,12 +2,9 @@ package com.gorgeous.ringolift.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gorgeous.ringolift.models.Question;
+import lombok.*;
+
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -30,6 +27,9 @@ public class QuestionResponse extends BaseResponse {
     @JsonProperty("type")
     private String type;
 
+    @JsonProperty("correct_answer")
+    private String correctAnswer; // Thêm trường đáp án đúng
+
     public static QuestionResponse fromQuestion(Question question) {
         QuestionResponse questionResponse = QuestionResponse.builder()
                 .id(question.getId())
@@ -37,6 +37,7 @@ public class QuestionResponse extends BaseResponse {
                 .audioUrl(question.getAudioUrl())
                 .hint(question.getHint())
                 .type(question.getType().toString())
+                .correctAnswer(question.getCorrectAnswer()) // Set đáp án đúng
                 .build();
         questionResponse.setCreatedAt(question.getCreatedAt());
         questionResponse.setUpdatedAt(question.getUpdatedAt());
@@ -49,3 +50,4 @@ public class QuestionResponse extends BaseResponse {
                 .toList();
     }
 }
+

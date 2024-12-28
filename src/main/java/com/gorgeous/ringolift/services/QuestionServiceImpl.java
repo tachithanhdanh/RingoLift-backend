@@ -12,9 +12,10 @@ import com.gorgeous.ringolift.responses.LessonQuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionTypeResponse;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class QuestionServiceImpl implements
                 .audioUrl(questionRequest.getAudioUrl())
                 .hint(questionRequest.getHint())
                 .type(existingQuestionType)
+                .correctAnswer(questionRequest.getCorrectAnswer()) // Set đáp án đúng
                 .build();
         Question savedQuestion = questionRepository.save(newQuestion);
         return QuestionResponse.fromQuestion(savedQuestion);
@@ -74,6 +76,7 @@ public class QuestionServiceImpl implements
         existingQuestion.setAudioUrl(questionRequest.getAudioUrl());
         existingQuestion.setHint(questionRequest.getHint());
         existingQuestion.setType(existingQuestionType);
+        existingQuestion.setCorrectAnswer(questionRequest.getCorrectAnswer()); // Cập nhật đáp án đúng
         return QuestionResponse.fromQuestion(questionRepository.save(existingQuestion));
     }
 
