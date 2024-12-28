@@ -20,10 +20,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class MistakeServiceImpl implements MistakeService {
+<<<<<<< HEAD
 
     private final MistakeRepository mistakeRepository;
     private final LessonRepository lessonRepository;
     private final QuestionRepository questionRepository;
+=======
+    private final MistakeRepository mistakeRepository;
+
+    private final LessonRepository lessonRepository;
+
+    private final QuestionRepository questionRepository;
+
+>>>>>>> origin/Hung2
     private final UserRepository userRepository;
 
     @Override

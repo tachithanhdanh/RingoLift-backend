@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -132,6 +133,17 @@ public class GlobalExceptionHandler {
                 .body(ResponseObject.builder()
                         .message("Token expired")
                         .status(HttpStatus.UNAUTHORIZED)
+                        .data(null)
+                        .build());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseObject> handleBadCredentialsException(BadCredentialsException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseObject.builder()
+                        .message(exception.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
                         .data(null)
                         .build());
     }

@@ -25,7 +25,10 @@ public class MistakeRequest {
 
     @JsonProperty("is_active")
     private Boolean active;
+<<<<<<< HEAD
 
     @JsonProperty("your_answer") // Thêm trường này
     private String yourAnswer; // Sửa kiểu dữ liệu thành String
+=======
+>>>>>>> origin/Hung2
 }

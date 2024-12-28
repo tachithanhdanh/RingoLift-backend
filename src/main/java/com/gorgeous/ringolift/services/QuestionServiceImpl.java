@@ -37,6 +37,7 @@ public class QuestionServiceImpl implements
                 .audioUrl(questionRequest.getAudioUrl())
                 .hint(questionRequest.getHint())
                 .type(existingQuestionType)
+                .correctAnswer(questionRequest.getCorrectAnswer()) // Set đáp án đúng
                 .build();
         Question savedQuestion = questionRepository.save(newQuestion);
         return QuestionResponse.fromQuestion(savedQuestion);
@@ -74,6 +75,7 @@ public class QuestionServiceImpl implements
         existingQuestion.setAudioUrl(questionRequest.getAudioUrl());
         existingQuestion.setHint(questionRequest.getHint());
         existingQuestion.setType(existingQuestionType);
+        existingQuestion.setCorrectAnswer(questionRequest.getCorrectAnswer()); // Cập nhật đáp án đúng
         return QuestionResponse.fromQuestion(questionRepository.save(existingQuestion));
     }
 

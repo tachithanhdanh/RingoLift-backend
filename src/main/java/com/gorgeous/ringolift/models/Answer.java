@@ -20,9 +20,6 @@ public class Answer extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(name = "is_correct", nullable = false)
-    private Boolean isCorrect;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;

@@ -20,11 +20,27 @@ public class WordController {
 
     private final WordService wordService;
 
+    // Lấy tất cả word theo topic_id
+    // Định nghĩa trước để tránh xung đột
+    // GET http://localhost:8088/api/v1/words/topic/1
+    @GetMapping("/topic/{id}")
+    public ResponseEntity<ResponseObject> getWordsByTopicId(
+            @PathVariable Long id
+    ) throws DataNotFoundException {
+        List<WordResponse> wordResponses = wordService.getWordsByTopicId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(
+                ResponseObject.builder()
+                        .message("Get words by topic id successfully")
+                        .status(HttpStatus.OK)
+                        .data(wordResponses)
+                        .build()
+        );
+    }
+
     // Create a new word
-    // POST http://localhost:8088/api/v1/books
     @PostMapping("")
     public ResponseEntity<ResponseObject> addWord(
-        @Valid @RequestBody WordRequest wordRequest
+            @Valid @RequestBody WordRequest wordRequest
     ) throws DataNotFoundException {
         WordResponse wordResponse = wordService.createWord(wordRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(
@@ -37,7 +53,6 @@ public class WordController {
     }
 
     // Get all words
-    // GET http://localhost:8088/api/v1/words
     @GetMapping("")
     public ResponseEntity<ResponseObject> getWords() {
         List<WordResponse> wordResponses = wordService.getAllWords();
@@ -51,7 +66,6 @@ public class WordController {
     }
 
     // Get a word by id
-    // GET http://localhost:8088/api/v1/words/1
     @GetMapping("/{id}")
     public ResponseEntity<ResponseObject> getWordBy(
             @Valid @PathVariable Long id
@@ -67,7 +81,6 @@ public class WordController {
     }
 
     // Update a word by id
-    // PUT http://localhost:8088/api/v1/words/1
     @PutMapping("/{id}")
     public ResponseEntity<ResponseObject> updateWord(
             @Valid @PathVariable Long id,
@@ -84,7 +97,6 @@ public class WordController {
     }
 
     // Delete a word by id
-    // DELETE http://localhost:8088/api/v1/words/1
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseObject> deleteWord(
             @Valid @PathVariable Long id

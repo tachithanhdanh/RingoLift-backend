@@ -21,8 +21,8 @@ public class WordRequest {
     @NotBlank
     private String meaning;
 
-    @JsonProperty("topic")
-    private String topic;
+    @JsonProperty("topic_id")
+    private Long topicId;
 
     @JsonProperty("part_of_speech_id")
     private Long partOfSpeechId;

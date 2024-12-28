@@ -11,36 +11,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "mistakes")
-public class Mistake extends BaseEntity {
+@Table(name = "user_answers")
+public class UserAnswer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    // Liên kết tới User
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "lesson_id", nullable = false)
-    private Lesson lesson;
-
-    @ManyToOne
+    // Liên kết tới Question
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @Column(name = "active")
-    private Boolean active;
-<<<<<<< HEAD
-
-    @Column(name = "your_answer")
-    private String yourAnswer; // Đảm bảo sử dụng kiểu String đúng
-
-    // Thêm phương thức getter cho yourAnswer
-    public String getYourAnswer() {
-        return yourAnswer;
-    }
-=======
->>>>>>> origin/Hung2
+    // Nội dung câu trả lời của người dùng
+    @Column(name = "answer_text", nullable = false, length = 1000)
+    private String answerText;
 }

@@ -12,6 +12,10 @@ public interface MistakeRepository extends JpaRepository<Mistake, Long> {
     Optional<Mistake> findByIdAndUserIdAndLessonIdAndQuestionId(Long id, Long userId, Long lessonId, Long questionId);
 
     List<Mistake> findByUserIdAndLessonId(Long userId, Long lessonId);
+<<<<<<< HEAD
 
     List<Mistake> findAll();
 }
+=======
+}
+>>>>>>> origin/Hung2
