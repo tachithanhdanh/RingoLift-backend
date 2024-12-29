@@ -12,6 +12,10 @@ public interface UserAnswerService {
 
     UserAnswerResponse updateUserAnswer(Long id, UserAnswerRequest request) throws DataNotFoundException;
 
+    UserAnswerResponse updateUserAnswerByUserIdAndQuestionId(Long userId, Long questionId, UserAnswerRequest request) throws DataNotFoundException;
+
+    UserAnswerResponse getUserAnswerByUserIdAndQuestionId(Long userId, Long questionId) throws DataNotFoundException;
+
     void deleteUserAnswer(Long id) throws DataNotFoundException;
 
     UserAnswerResponse getUserAnswerById(Long id) throws DataNotFoundException;

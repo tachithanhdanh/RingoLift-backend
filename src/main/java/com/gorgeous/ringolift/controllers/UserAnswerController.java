@@ -63,6 +63,25 @@ public class UserAnswerController {
         }
     }
 
+    @PutMapping("")
+    public ResponseEntity<ResponseObject> updateUserAnswerByUserIdAndQuestionId(
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @RequestParam(value = "question_id", required = false) Long questionId,
+            @RequestBody UserAnswerRequest userAnswerRequest
+    ) throws DataNotFoundException  {
+        UserAnswerResponse userAnswerResponse = userAnswerService.updateUserAnswerByUserIdAndQuestionId(userId, questionId, userAnswerRequest);
+        return ResponseEntity.ok(new ResponseObject("UserAnswer updated successfully", HttpStatus.OK, userAnswerResponse));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> updateUserAnswerByUserIdAndQuestionId(
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @RequestParam(value = "question_id", required = false) Long questionId
+    ) throws DataNotFoundException  {
+        UserAnswerResponse userAnswerResponse = userAnswerService.getUserAnswerByUserIdAndQuestionId(userId, questionId);
+        return ResponseEntity.ok(new ResponseObject("UserAnswer updated successfully", HttpStatus.OK, userAnswerResponse));
+    }
+
     /**
      * Retrieve a specific UserAnswer by id.
      * GET /api/v1/user-answers/{id}

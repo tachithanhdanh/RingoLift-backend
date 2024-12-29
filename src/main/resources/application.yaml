@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ringolift?useSSL=false
     username: root
-    password:
+    password: toor
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true # show SQL queries in the console

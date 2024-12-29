@@ -49,7 +49,22 @@ public class DailyProgressServiceImpl implements DailyProgressService {
 
     @Override
     public DailyProgressResponse getDailyProgressByUserIdAndCreatedAt(Long userId, LocalDate createdAt) throws DataNotFoundException {
-        return DailyProgressResponse.fromDailyProgress(dailyProgressRepository.findByUserIdAndCreatedAt(userId, createdAt));
+        DailyProgress dailyProgress = dailyProgressRepository.findByUserIdAndCreatedAt(userId, createdAt);
+        if (dailyProgress == null) {
+            // Get user
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+            // Get daily progress
+            dailyProgress = DailyProgress.builder()
+                    .user(user)
+                    .timeSpent(0)
+                    .lessonCount(0)
+                    .wordCount(0)
+                    .build();
+            dailyProgressRepository.save(dailyProgress);
+        }
+        return DailyProgressResponse.fromDailyProgress(dailyProgress);
     }
 
     @Override

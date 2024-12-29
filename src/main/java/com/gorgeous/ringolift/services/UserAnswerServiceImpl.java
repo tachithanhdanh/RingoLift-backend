@@ -9,6 +9,7 @@ import com.gorgeous.ringolift.repositories.UserAnswerRepository;
 import com.gorgeous.ringolift.repositories.UserRepository;
 import com.gorgeous.ringolift.requests.UserAnswerRequest;
 import com.gorgeous.ringolift.responses.UserAnswerResponse;
+import io.jsonwebtoken.lang.Strings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,63 @@ public class UserAnswerServiceImpl implements UserAnswerService {
 
         // Trả về phản hồi
         return UserAnswerResponse.fromUserAnswer(updatedUserAnswer);
+    }
+
+    @Override
+    public UserAnswerResponse updateUserAnswerByUserIdAndQuestionId(Long userId, Long questionId, UserAnswerRequest request) throws DataNotFoundException {
+        // Get user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        // Get question
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new DataNotFoundException("Question not found"));
+
+        // Get userAnswer
+        UserAnswer userAnswer = userAnswerRepository.findByUserIdAndQuestionId(userId, questionId);
+
+        // Create userAnswer if not exists
+        if (userAnswer == null) {
+            userAnswer = UserAnswer.builder()
+                    .user(user)
+                    .question(question)
+                    .answerText(request.getAnswerText())
+                    .build();
+        }
+        else {
+            userAnswer.setAnswerText(request.getAnswerText());
+        }
+
+        // Save to database and return response
+        userAnswerRepository.save(userAnswer);
+        return UserAnswerResponse.fromUserAnswer(userAnswer);
+    }
+
+    @Override
+    public UserAnswerResponse getUserAnswerByUserIdAndQuestionId(Long userId, Long questionId) throws DataNotFoundException {
+        // Get user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        // Get question
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new DataNotFoundException("Question not found"));
+
+        // Get userAnswer
+        UserAnswer userAnswer = userAnswerRepository.findByUserIdAndQuestionId(userId, questionId);
+
+        // Create userAnswer if not exists
+        if (userAnswer == null) {
+            userAnswer = UserAnswer.builder()
+                    .user(user)
+                    .question(question)
+                    .answerText(Strings.EMPTY)
+                    .build();
+            // Save to database
+            userAnswerRepository.save(userAnswer);
+        }
+
+        return UserAnswerResponse.fromUserAnswer(userAnswer);
     }
 
     @Override
