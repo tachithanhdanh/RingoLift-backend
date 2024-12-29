@@ -241,15 +241,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + userId));
         Lesson existingLesson = lessonRepository.findById(lessonId).orElseThrow(
                 () -> new DataNotFoundException("Cannot find lesson with id " + lessonId));
-        LessonProgress existingLessonProgress = lessonProgressRepository.findByUserIdAndLessonId(
-                userId, lessonId).orElseThrow(() -> new DataNotFoundException(
-                "Cannot find lesson progress with user id " + userId + " and lesson id "
-                        + lessonId));
+        LessonProgress existingLessonProgress = lessonProgressRepository.findByUserIdAndLessonId(userId, lessonId)
+                .orElse(LessonProgress.builder()
+                        .user(existingUser)
+                        .lesson(existingLesson)
+                        .build());
         existingLessonProgress.setCorrectCount(lessonProgressRequest.getCorrectCount());
         existingLessonProgress.setIncorrectCount(lessonProgressRequest.getIncorrectCount());
         existingLessonProgress.setTimeSpent(lessonProgressRequest.getTimeSpent());
-        existingLessonProgress.setLesson(existingLesson);
-        existingLessonProgress.setUser(existingUser);
         return LessonProgressResponse.fromLessonProgress(
                 lessonProgressRepository.save(existingLessonProgress));
     }
