@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         User user = User.builder().username(userRequest.getUsername()).email(userRequest.getEmail())
                 .firstName(userRequest.getFirstName()).lastName(userRequest.getLastName())
                 .dateOfBirth(userRequest.getDateOfBirth()).gender(gender)
-                .picture(userRequest.getPicture()).goal(goal).password(userRequest.getPassword())
+                .picture(userRequest.getPicture()).goal(goal)
                 .isPublic(userRequest.getIsPublic()).googleId(userRequest.getGoogleId())
                 .accessToken(userRequest.getAccessToken()).role(role).build();
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
             existingUser.setGoal(goal);
         }
 
-        existingUser.setPassword(userRequest.getPassword());
+//        existingUser.setPassword(userRequest.getPassword());
         existingUser.setIsPublic(userRequest.getIsPublic());
         existingUser.setGoogleId(userRequest.getGoogleId());
         existingUser.setAccessToken(userRequest.getAccessToken());
@@ -241,15 +241,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new DataNotFoundException("Cannot find user with id " + userId));
         Lesson existingLesson = lessonRepository.findById(lessonId).orElseThrow(
                 () -> new DataNotFoundException("Cannot find lesson with id " + lessonId));
-        LessonProgress existingLessonProgress = lessonProgressRepository.findByUserIdAndLessonId(
-                userId, lessonId).orElseThrow(() -> new DataNotFoundException(
-                "Cannot find lesson progress with user id " + userId + " and lesson id "
-                        + lessonId));
+        LessonProgress existingLessonProgress = lessonProgressRepository.findByUserIdAndLessonId(userId, lessonId)
+                .orElse(LessonProgress.builder()
+                        .user(existingUser)
+                        .lesson(existingLesson)
+                        .build());
         existingLessonProgress.setCorrectCount(lessonProgressRequest.getCorrectCount());
         existingLessonProgress.setIncorrectCount(lessonProgressRequest.getIncorrectCount());
         existingLessonProgress.setTimeSpent(lessonProgressRequest.getTimeSpent());
-        existingLessonProgress.setLesson(existingLesson);
-        existingLessonProgress.setUser(existingUser);
         return LessonProgressResponse.fromLessonProgress(
                 lessonProgressRepository.save(existingLessonProgress));
     }

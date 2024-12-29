@@ -23,7 +23,7 @@ public class MistakeRequest {
     @JsonProperty("question_id")
     private Long questionId;
 
-    @JsonProperty("is_active")
+    @JsonProperty("active")
     private Boolean active;
 
     @JsonProperty("your_answer") // Thêm trường này

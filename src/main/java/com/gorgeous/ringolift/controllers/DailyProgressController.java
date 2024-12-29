@@ -8,10 +8,13 @@ import com.gorgeous.ringolift.responses.ResponseObject;
 import com.gorgeous.ringolift.services.DailyProgressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -40,15 +43,31 @@ public class DailyProgressController {
     // Get all daily progresses
     // GET http://localhost:8088/api/v1/daily-progresses
     @GetMapping("")
-    public ResponseEntity<ResponseObject> getDailyProgress() {
-        List<DailyProgressResponse> dailyProgresses = dailyProgressService.getAllDailyProgresses();
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ResponseObject.builder()
-                        .message("Get list of daily progresses successfully")
-                        .status(HttpStatus.OK)
-                        .data(dailyProgresses)
-                        .build()
-        );
+    public ResponseEntity<ResponseObject> getDailyProgress(
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @RequestParam(value = "created_at", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAt
+    ) throws DataNotFoundException {
+        if (userId != null && createdAt != null) {
+            // Nếu có cả user_id và created_at, trả về DailyProgress cụ thể
+            DailyProgressResponse dailyProgressResponse = dailyProgressService.getDailyProgressByUserIdAndCreatedAt(userId, createdAt);
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    ResponseObject.builder()
+                            .message("Get daily progress by user id and created at successfully")
+                            .status(HttpStatus.OK)
+                            .data(dailyProgressResponse)
+                            .build()
+            );
+        } else {
+            // Nếu không có user_id hoặc created_at, trả về danh sách tất cả DailyProgresses
+            List<DailyProgressResponse> dailyProgresses = dailyProgressService.getAllDailyProgresses();
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    ResponseObject.builder()
+                            .message("Get list of daily progresses successfully")
+                            .status(HttpStatus.OK)
+                            .data(dailyProgresses)
+                            .build()
+            );
+        }
     }
 
     // Get a daily progress

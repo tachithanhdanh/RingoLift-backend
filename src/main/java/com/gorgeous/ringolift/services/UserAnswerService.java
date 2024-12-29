@@ -2,8 +2,8 @@ package com.gorgeous.ringolift.services;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.models.Question;
-import com.gorgeous.ringolift.responses.UserAnswerResponse;
 import com.gorgeous.ringolift.requests.UserAnswerRequest;
+import com.gorgeous.ringolift.responses.UserAnswerResponse;
 
 import java.util.List;
 
@@ -11,6 +11,10 @@ public interface UserAnswerService {
     UserAnswerResponse createUserAnswer(UserAnswerRequest request) throws DataNotFoundException;
 
     UserAnswerResponse updateUserAnswer(Long id, UserAnswerRequest request) throws DataNotFoundException;
+
+    UserAnswerResponse updateUserAnswerByUserIdAndQuestionId(Long userId, Long questionId, UserAnswerRequest request) throws DataNotFoundException;
+
+    UserAnswerResponse getUserAnswerByUserIdAndQuestionId(Long userId, Long questionId) throws DataNotFoundException;
 
     void deleteUserAnswer(Long id) throws DataNotFoundException;
 

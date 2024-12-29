@@ -10,6 +10,8 @@ import com.gorgeous.ringolift.responses.DailyProgressResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +45,26 @@ public class DailyProgressServiceImpl implements DailyProgressService {
         return dailyProgressRepository.findById(dailyProgressId)
                 .map(DailyProgressResponse::fromDailyProgress)
                 .orElseThrow(() -> new DataNotFoundException("DailyProgress not found"));
+    }
+
+    @Override
+    public DailyProgressResponse getDailyProgressByUserIdAndCreatedAt(Long userId, LocalDate createdAt) throws DataNotFoundException {
+        DailyProgress dailyProgress = dailyProgressRepository.findByUserIdAndCreatedAt(userId, createdAt);
+        if (dailyProgress == null) {
+            // Get user
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+            // Get daily progress
+            dailyProgress = DailyProgress.builder()
+                    .user(user)
+                    .timeSpent(0)
+                    .lessonCount(0)
+                    .wordCount(0)
+                    .build();
+            dailyProgressRepository.save(dailyProgress);
+        }
+        return DailyProgressResponse.fromDailyProgress(dailyProgress);
     }
 
     @Override

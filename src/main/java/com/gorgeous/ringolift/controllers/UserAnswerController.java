@@ -2,15 +2,15 @@ package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.models.Question;
-import com.gorgeous.ringolift.responses.UserAnswerResponse;
 import com.gorgeous.ringolift.requests.UserAnswerRequest;
 import com.gorgeous.ringolift.responses.ResponseObject;
+import com.gorgeous.ringolift.responses.UserAnswerResponse;
 import com.gorgeous.ringolift.services.UserAnswerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -61,6 +61,25 @@ public class UserAnswerController {
                     .body(new ResponseObject("Error updating UserAnswer: " + e.getMessage(),
                             HttpStatus.INTERNAL_SERVER_ERROR, null));
         }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<ResponseObject> updateUserAnswerByUserIdAndQuestionId(
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @RequestParam(value = "question_id", required = false) Long questionId,
+            @RequestBody UserAnswerRequest userAnswerRequest
+    ) throws DataNotFoundException  {
+        UserAnswerResponse userAnswerResponse = userAnswerService.updateUserAnswerByUserIdAndQuestionId(userId, questionId, userAnswerRequest);
+        return ResponseEntity.ok(new ResponseObject("UserAnswer updated successfully", HttpStatus.OK, userAnswerResponse));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ResponseObject> updateUserAnswerByUserIdAndQuestionId(
+            @RequestParam(value = "user_id", required = false) Long userId,
+            @RequestParam(value = "question_id", required = false) Long questionId
+    ) throws DataNotFoundException  {
+        UserAnswerResponse userAnswerResponse = userAnswerService.getUserAnswerByUserIdAndQuestionId(userId, questionId);
+        return ResponseEntity.ok(new ResponseObject("UserAnswer updated successfully", HttpStatus.OK, userAnswerResponse));
     }
 
     /**

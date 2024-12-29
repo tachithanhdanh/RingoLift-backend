@@ -8,7 +8,6 @@ import com.gorgeous.ringolift.repositories.QuestionRepository;
 import com.gorgeous.ringolift.requests.AnswerRequest;
 import com.gorgeous.ringolift.responses.AnswerResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

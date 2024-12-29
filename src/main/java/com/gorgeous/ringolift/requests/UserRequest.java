@@ -42,9 +42,9 @@ public class UserRequest {
     @JsonProperty("goal_id")
     private Long goalId;
 
-    @JsonProperty("password")
-    @NotBlank(message = "Password is required")
-    private String password;
+//    @JsonProperty("password")
+//    @NotBlank(message = "Password is required")
+//    private String password;
 
     @JsonProperty("is_public")
     private Boolean isPublic;

@@ -1,10 +1,7 @@
 package com.gorgeous.ringolift.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -33,11 +30,9 @@ public class Mistake extends BaseEntity {
     @Column(name = "active")
     private Boolean active;
 
+    // Thêm phương thức getter cho yourAnswer
+    @Getter
     @Column(name = "your_answer")
     private String yourAnswer;
 
-    // Thêm phương thức getter cho yourAnswer
-    public String getYourAnswer() {
-        return yourAnswer;
-    }
 }

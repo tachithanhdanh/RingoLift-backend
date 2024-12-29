@@ -5,10 +5,10 @@ import com.gorgeous.ringolift.requests.AnswerRequest;
 import com.gorgeous.ringolift.responses.AnswerResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
 import com.gorgeous.ringolift.services.AnswerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}/answers")

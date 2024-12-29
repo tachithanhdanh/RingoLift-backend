@@ -5,7 +5,6 @@ import com.gorgeous.ringolift.models.Topic;
 import com.gorgeous.ringolift.repositories.TopicRepository;
 import com.gorgeous.ringolift.requests.TopicRequest;
 import com.gorgeous.ringolift.responses.TopicResponse;
-import com.gorgeous.ringolift.services.TopicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

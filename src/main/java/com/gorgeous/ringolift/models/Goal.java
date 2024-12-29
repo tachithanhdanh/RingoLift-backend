@@ -25,5 +25,9 @@ public class Goal extends BaseEntity {
     @Column(name = "word_count")
     private Integer wordCount;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
+
     // The createdAt and updatedAt fields are inherited from BaseEntity
 }

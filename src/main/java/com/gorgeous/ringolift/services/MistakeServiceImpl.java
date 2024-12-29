@@ -1,12 +1,12 @@
 package com.gorgeous.ringolift.services;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
-import com.gorgeous.ringolift.models.Mistake;
 import com.gorgeous.ringolift.models.Lesson;
+import com.gorgeous.ringolift.models.Mistake;
 import com.gorgeous.ringolift.models.Question;
 import com.gorgeous.ringolift.models.User;
-import com.gorgeous.ringolift.repositories.MistakeRepository;
 import com.gorgeous.ringolift.repositories.LessonRepository;
+import com.gorgeous.ringolift.repositories.MistakeRepository;
 import com.gorgeous.ringolift.repositories.QuestionRepository;
 import com.gorgeous.ringolift.repositories.UserRepository;
 import com.gorgeous.ringolift.requests.MistakeRequest;

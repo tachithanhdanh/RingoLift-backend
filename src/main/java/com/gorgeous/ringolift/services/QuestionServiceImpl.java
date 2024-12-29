@@ -12,9 +12,10 @@ import com.gorgeous.ringolift.responses.LessonQuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionResponse;
 import com.gorgeous.ringolift.responses.QuestionTypeResponse;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor

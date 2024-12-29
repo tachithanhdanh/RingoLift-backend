@@ -189,6 +189,11 @@ CREATE TABLE goals
     updated_at   DATETIME
 );
 
+ALTER TABLE goals
+    ADD COLUMN user_id INT,
+    ADD FOREIGN KEY (user_id) REFERENCES users (id);
+
+
 -- 11. Tạo bảng 'books'
 CREATE TABLE books
 (

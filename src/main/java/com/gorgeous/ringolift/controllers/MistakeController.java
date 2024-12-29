@@ -1,17 +1,15 @@
 package com.gorgeous.ringolift.controllers;
 
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
-import com.gorgeous.ringolift.responses.MistakeResponse;
 import com.gorgeous.ringolift.requests.MistakeRequest;
+import com.gorgeous.ringolift.responses.MistakeResponse;
 import com.gorgeous.ringolift.responses.ResponseObject;
 import com.gorgeous.ringolift.services.MistakeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
