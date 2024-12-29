@@ -28,6 +28,11 @@ public class MistakeController {
     public ResponseEntity<ResponseObject> createMistake(@Valid @RequestBody MistakeRequest request) {
         try {
             MistakeResponse response = mistakeService.createMistake(request);
+
+            if (response.getYourAnswer() == null) {
+                response.setYourAnswer(request.getYourAnswer());
+            }
+
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(new ResponseObject("Mistake created successfully", HttpStatus.CREATED, response));
         } catch (Exception e) {

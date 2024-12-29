@@ -42,6 +42,8 @@ public class MistakeServiceImpl implements MistakeService {
         mistake.setLesson(lesson);
         mistake.setQuestion(question);
         mistake.setActive(request.getActive());
+        // Thêm dòng này để thiết lập yourAnswer
+        mistake.setYourAnswer(request.getYourAnswer());
 
         Mistake savedMistake = mistakeRepository.save(mistake);
         return mapToResponse(savedMistake);
@@ -61,6 +63,8 @@ public class MistakeServiceImpl implements MistakeService {
         mistake.setLesson(lesson);
         mistake.setQuestion(question);
         mistake.setActive(request.getActive());
+        // Thêm dòng này để cập nhật yourAnswer
+        mistake.setYourAnswer(request.getYourAnswer());
 
         Mistake updatedMistake = mistakeRepository.save(mistake);
         return mapToResponse(updatedMistake);
