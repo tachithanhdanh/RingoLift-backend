@@ -4,6 +4,7 @@ import com.gorgeous.ringolift.jwt.JwtUtils;
 import com.gorgeous.ringolift.exceptions.DataNotFoundException;
 import com.gorgeous.ringolift.exceptions.InvalidParamException;
 import com.gorgeous.ringolift.exceptions.PermissionDenyException;
+import com.gorgeous.ringolift.models.Goal;
 import com.gorgeous.ringolift.models.Role;
 import com.gorgeous.ringolift.models.User;
 import com.gorgeous.ringolift.models.UserGender;
@@ -74,7 +75,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String password = userRegisterRequest.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
 
-
         // convert from userRequest to User
         User newUser = User.builder()
                 .username(userRegisterRequest.getUsername())
@@ -87,6 +87,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .isPublic(userRegisterRequest.getIsPublic())
                 .role(role)
                 .build();
+
+        Goal goal = Goal.builder()
+                .user(newUser)
+                .lessonCount(5)
+                .wordCount(10)
+                .timeSpent(500)
+                .build();
+
+        Goal save = GoalRepository.save(goal);
 
         // save the user to the database
         return UserResponse.fromUser(userRepository.save(newUser));
@@ -112,8 +121,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword(),
-                existingUser.getAuthorities()
-        );
+                existingUser.getAuthorities());
         authenticationManager.authenticate(authenticationToken);
 
         String token = jwtUtils.generateToken(existingUser);
@@ -154,7 +162,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return response;
     }
 
-
     @Override
     public ValidateTokenResponse validateToken(ValidateTokenRequest request)
             throws DataNotFoundException {
@@ -164,7 +171,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = request.getToken();
 
         // Kiểm tra tính hợp lệ của token
-        boolean isValid = jwtUtils.validateToken(token, existingUser);  // null có thể là username nếu bạn cần kiểm tra đối chiếu
+        boolean isValid = jwtUtils.validateToken(token, existingUser); // null có thể là username nếu bạn cần kiểm tra
+                                                                       // đối chiếu
         ValidateTokenResponse response = new ValidateTokenResponse();
 
         if (isValid) {
@@ -184,8 +192,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return response;
     }
-
-
 
     @Override
     public LogoutResponse logout(LogoutRequest request)
