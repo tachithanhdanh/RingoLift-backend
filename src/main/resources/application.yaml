@@ -12,7 +12,7 @@ spring:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    show-sql: true # show SQL queries in the console
+    show-sql: false # show SQL queries in the console
     hibernate:
       ddl-auto: none # prevent Hibernate from creating or updating the database schema
     properties:

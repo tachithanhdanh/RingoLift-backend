@@ -35,12 +35,14 @@ public class WebSecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
 
-    // PUBLIC_ENDPOINTS must be initialized after apiPrefix is set, so it will be initialized in the @PostConstruct method
+    // PUBLIC_ENDPOINTS must be initialized after apiPrefix is set, so it will be
+    // initialized in the @PostConstruct method
     public String[] PUBLIC_ENDPOINTS;
 
     /**
      * This method is called after all dependencies have been injected by Spring.
-     * It initializes PUBLIC_ENDPOINTS using the apiPrefix value, which is guaranteed to be set by this point.
+     * It initializes PUBLIC_ENDPOINTS using the apiPrefix value, which is
+     * guaranteed to be set by this point.
      */
     @PostConstruct
     private void init() {
@@ -54,16 +56,16 @@ public class WebSecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling((httpSecurityExceptionHandlingConfigurer ->
-                        httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(
+                .exceptionHandling((httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                        .authenticationEntryPoint(
                                 jwtAuthenticationEntryPoint)))
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((requests) -> {
                     requests
-                            .requestMatchers(POST,// user and admin can get categories
+                            .requestMatchers(POST, // user and admin can get categories
                                     PUBLIC_ENDPOINTS)
                             .permitAll()
-                            .requestMatchers(GET,// user and admin can get categories
+                            .requestMatchers(GET, // user and admin can get categories
                                     PUBLIC_ENDPOINTS)
                             .permitAll()
                             .anyRequest().authenticated(); // allow all requests
@@ -77,16 +79,17 @@ public class WebSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-// Allow any origin
-        configuration.setAllowedOriginPatterns(List.of("*")); // Use setAllowedOrigins(List.of("*")) for older Spring versions
+        // Allow any origin
+        configuration.setAllowedOriginPatterns(List.of("*")); // Use setAllowedOrigins(List.of("*")) for older Spring
+                                                              // versions
 
-// Allow specific HTTP methods
+        // Allow specific HTTP methods
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 
-// Allow any headers
+        // Allow any headers
         configuration.setAllowedHeaders(List.of("*"));
 
-// Allow credentials if needed (optional, remove this if not required)
+        // Allow credentials if needed (optional, remove this if not required)
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

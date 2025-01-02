@@ -1253,3 +1253,66 @@ VALUES
 (77, 'Academic Writing: Writing Abstracts', 14, 'Master the art of writing concise and clear academic abstracts.', NOW(), NOW()),
 (78, 'Developing Research Questions', 14, 'Learn how to frame effective research questions for academic work.', NOW(), NOW()),
 (79, 'Creative Writing: Descriptive Techniques', 15, 'Enhance your creative writing skills with vivid descriptions.', NOW(), NOW());
+
+INSERT INTO `books` VALUES 
+(2, 'The Great Gatsby', 'F. Scott Fitzgerald', 1, '1925-04-10', '978-0743273565', 180, 'Scribner', 'A tale of the Jazz Age and the American Dream', 'gatsby.jpg', 'gatsby.txt', NOW(), NOW()),
+(3, 'To Kill a Mockingbird', 'Harper Lee', 1, '1960-07-11', '978-0446310789', 281, 'Grand Central', 'Classic of modern American literature', 'mockingbird.jpg', 'mockingbird.txt', NOW(), NOW()),
+(4, 'Data Science Basics', 'John Smith', 7, '2023-01-15', '978-1234567890', 400, 'Tech Books', 'Introduction to data science concepts', 'datascience.jpg', 'datascience.txt', NOW(), NOW()),
+(5, 'The Hobbit', 'J.R.R. Tolkien', 2, '1937-09-21', '978-0547928227', 304, 'Houghton Mifflin', 'Fantasy adventure novel', 'hobbit.jpg', 'hobbit.txt', NOW(), NOW()),
+(6, '1984', 'George Orwell', 3, '1949-06-08', '978-0451524935', 328, 'Signet Classic', 'Dystopian social science fiction', '1984.jpg', '1984.txt', NOW(), NOW()),
+(7, 'Pride and Prejudice', 'Jane Austen', 1, '1813-01-28', '978-0141439518', 432, 'Penguin Classics', 'A romantic novel of manners', 'pride.jpg', 'pride.txt', NOW(), NOW()),
+(8, 'Python Programming', 'Sarah Johnson', 7, '2024-01-01', '978-0987654321', 550, 'Code Masters', 'Comprehensive guide to Python programming', 'python.jpg', 'python.txt', NOW(), NOW()),
+(9, 'Dune', 'Frank Herbert', 2, '1965-08-01', '978-0441172719', 412, 'Ace Books', 'Epic science fiction novel', 'dune.jpg', 'dune.txt', NOW(), NOW()),
+(10, 'The Da Vinci Code', 'Dan Brown', 4, '2003-03-18', '978-0385504201', 454, 'Doubleday', 'Mystery thriller novel', 'davinci.jpg', 'davinci.txt', NOW(), NOW()),
+(11, 'Machine Learning Fundamentals', 'David Chen', 7, '2023-11-30', '978-1122334455', 480, 'AI Press', 'Introduction to machine learning concepts', 'ml.jpg', 'ml.txt', NOW(), NOW()),
+(12, 'The Alchemist', 'Paulo Coelho', 5, '1988-01-01', '978-0062315007', 208, 'HarperOne', 'Philosophical novel about following dreams', 'alchemist.jpg', 'alchemist.txt', NOW(), NOW());
+
+INSERT INTO questions (content, audio_url, hint, type_id, correct_answer, created_at, updated_at) VALUES
+('What is the capital of France?', 'https://fakeaudio.com/question1.mp3', 'It\'s also known as the City of Lights.', 1, 'Paris', NOW(), NOW()),
+('What is 2 + 2?', 'https://fakeaudio.com/question2.mp3', 'It\'s an even number.', 1, '4', NOW(), NOW());
+
+INSERT INTO answers (content, question_id, created_at, updated_at) VALUES
+('Paris', 11, NOW(), NOW()),
+('London', 11, NOW(), NOW()),
+('4', 12, NOW(), NOW()),
+('3', 12, NOW(), NOW());
+
+INSERT INTO user_answers (user_id, question_id, answer_text, created_at, updated_at) VALUES
+(4, 11, 'London', NOW(), NOW()),
+(4, 12, '3', NOW(), NOW()),
+(4, 11, 'Berlin', NOW(), NOW()),
+(4, 12, '5', NOW(), NOW());
+
+INSERT INTO mistakes (user_id, lesson_id, question_id, your_answer, active, created_at, updated_at) VALUES
+(4, 1, 11, 'London', FALSE, NOW(), NOW()),
+(4, 1, 12, '3', FALSE, NOW(), NOW()),
+(4, 2, 11, 'Berlin', TRUE, NOW(), NOW()),
+(4, 2, 12, '5', TRUE, NOW(), NOW());
+
+-- Insert 10 users with bcrypt-encrypted passwords (password: "password")
+INSERT INTO users (username, email, first_name, last_name, date_of_birth, gender_id, picture, goal_id, password, is_public, google_id, access_token, created_at, updated_at, role_id)
+VALUES
+    ('johnsmith', 'johnsmith@gmail.com', 'John', 'Smith', '1990-01-01', 1, 'https://fakeurl.com/pic5.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('emilybrown', 'emilybrown@gmail.com', 'Emily', 'Brown', '1991-02-14', 2, 'https://fakeurl.com/pic6.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('michaeljohnson', 'michaeljohnson@gmail.com', 'Michael', 'Johnson', '1988-06-23', 1, 'https://fakeurl.com/pic7.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('sarahwilson', 'sarahwilson@gmail.com', 'Sarah', 'Wilson', '1995-07-08', 2, 'https://fakeurl.com/pic8.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('davidtaylor', 'davidtaylor@gmail.com', 'David', 'Taylor', '1987-03-12', 1, 'https://fakeurl.com/pic9.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('laurawhite', 'laurawhite@gmail.com', 'Laura', 'White', '1993-09-15', 2, 'https://fakeurl.com/pic10.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('robertlee', 'robertlee@gmail.com', 'Robert', 'Lee', '1994-04-17', 1, 'https://fakeurl.com/pic11.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('jessicadavis', 'jessicadavis@gmail.com', 'Jessica', 'Davis', '1992-11-19', 2, 'https://fakeurl.com/pic12.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('markthomas', 'markthomas@gmail.com', 'Mark', 'Thomas', '1989-12-21', 1, 'https://fakeurl.com/pic13.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('ashleyclark', 'ashleyclark@gmail.com', 'Ashley', 'Clark', '1996-10-30', 2, 'https://fakeurl.com/pic14.jpg', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2);
+
+-- Insert 10 users with bcrypt-encrypted passwords (password for all users: "password")
+INSERT INTO users (username, email, first_name, last_name, date_of_birth, gender_id, picture, goal_id, password, is_public, google_id, access_token, created_at, updated_at, role_id)
+VALUES
+    ('username1', 'username1@gmail.com', 'John', 'Doe', '1990-01-01', 1, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username2', 'username2@gmail.com', 'Emily', 'Smith', '1992-02-14', 2, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username3', 'username3@gmail.com', 'Michael', 'Johnson', '1988-03-12', 1, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username4', 'username4@gmail.com', 'Sarah', 'Brown', '1995-04-23', 2, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username5', 'username5@gmail.com', 'David', 'Taylor', '1987-05-08', 1, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username6', 'username6@gmail.com', 'Laura', 'White', '1993-06-15', 2, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username7', 'username7@gmail.com', 'Robert', 'Lee', '1994-07-19', 1, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username8', 'username8@gmail.com', 'Jessica', 'Davis', '1992-08-21', 2, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username9', 'username9@gmail.com', 'Mark', 'Thomas', '1989-09-25', 1, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2),
+    ('username10', 'username10@gmail.com', 'Ashley', 'Clark', '1996-10-30', 2, 'https://raw.githubusercontent.com/shadow578/Project-Padoru/refs/heads/master/Padoru/cells-at-work-patelet.png', NULL, '$2a$10$6jCoGI8d9WGxsJGYzrKXuOJd9VBnaEH6ZnLZTDM4teDO7x3UIYgcG', TRUE, NULL, NULL, NOW(), NOW(), 2);
